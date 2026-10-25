@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+/.venv/
+/Datasets/
+/training_runs/
+.env
+.env.*
