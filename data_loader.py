@@ -26,14 +26,16 @@ def get_sample_folder(dataset_root, sample_index):
 def load_static_graph(sample_folder, statistics):
     """读取原始物理图，计算静态特征、三个区域和反应单元，返回 CPU 上的 Data。"""
     sample_folder = Path(sample_folder)
+    # 用来确认模型是单步预测
     metadata = json.loads((sample_folder / "sample_manifest.json").read_text(encoding="utf-8"))
     if metadata["prediction_horizon_intervals"] != 1:
         raise ValueError("当前参考模型使用 H=1，即原数组中相隔一个时间步的目标。")
+    # 加载数据相关的静态图信息
     with np.load(sample_folder / "static_graph.npz", allow_pickle=False) as arrays:
         raw = {name: arrays[name] for name in arrays.files}
     with np.load(sample_folder / "node_mapping.npz", allow_pickle=False) as arrays:
         mapping = {name: arrays[name] for name in arrays.files}
-    phase = raw["node_phase"]
+    phase = raw["node_phase"]  # 取出每个节点的材料相编号（1-7）
     node_region = assign_node_regions(phase, raw["node_coords_normalized"], raw["sample_coordinate_range_zyx_um"])
     geometry = build_edge_geometry(raw, statistics)
     graph_topology = build_graph_topology(phase, raw["edge_conns"], raw["edge_relation"], geometry, node_region)
