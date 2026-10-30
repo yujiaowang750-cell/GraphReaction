@@ -1,0 +1,115 @@
+{
+  "status": "PASS",
+  "settings": {
+    "schema": "graphreaction_full_train_ce2_selection_v1",
+    "seed": 2026,
+    "max_epochs": 141,
+    "optimizer": "AdamW",
+    "learning_rate": 0.001,
+    "weight_decay": 1e-06,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "adam_eps": 1e-08,
+    "accumulation": 4,
+    "clip_norm": 1.0,
+    "scheduler": "CosineAnnealingLR",
+    "T_max": 141,
+    "eta_min": 1e-05,
+    "scheduler_step": "epoch_end_after_optimizer",
+    "monitor": "online_train_CE2",
+    "best_rule": "strict_decrease",
+    "early_stopping": 20,
+    "validate_each_epoch": false,
+    "diagnostic_during_training": false,
+    "diagnostic_interval": null,
+    "diagnostic_panel": "final_best_only_first_train_and_full_validation_window",
+    "shuffle": "original two-level MT19937: trajectories then windows",
+    "static_cache_graphs": 1,
+    "amp": false,
+    "tf32": false,
+    "workers": 0,
+    "torch_threads": 4,
+    "deterministic_algorithms": false,
+    "cudnn_deterministic": true,
+    "train_weight": 1,
+    "proxy_weight": null,
+    "full_weight": 1,
+    "dataset_mode": "full",
+    "evaluation_scopes": [
+      "full"
+    ]
+  },
+  "data_identity": {
+    "mode": "full_train_validation",
+    "source": {
+      "trajectory_split.json": "36c0fbedab95ce8a35bc670c255ca3884afd4ce1c0e2b6e2613e8750d1c5f0c5",
+      "dataset_manifest.json": "261d1f12325fe558bbe57cc213c32d42107f117a0184d1569a028f7b67b8d6be",
+      "window_index.npz": "8047496c151862c1cc9d36dbacdef2c399762beb7bf4a88c1793e1d71cc3bfde",
+      "normalization_stats.json": "42915cf953dbb1eab6080ae0ef02ad002c9d492979f257366032cd6f3b02d758"
+    }
+  },
+  "preexisting_comment_changes": [
+    "graph_messages.py",
+    "model.py",
+    "reaction_topology.py"
+  ],
+  "full_indices": {
+    "status": "PASS",
+    "train_graphs": 65,
+    "train_windows": 22927,
+    "validation_graphs": 14,
+    "validation_windows": 4917,
+    "weights": 1,
+    "rejected": [
+      "test scope",
+      "proxy scope",
+      "validation in train",
+      "duplicate window",
+      "missing window"
+    ]
+  },
+  "artificial_full_flow": {
+    "status": "PASS",
+    "device": "cpu",
+    "training_windows": 24,
+    "validation_calls_during_training": 0,
+    "final_scopes": [
+      "full"
+    ],
+    "final_validation_windows": 6,
+    "best_epoch": 3,
+    "test_state_reads": 0,
+    "updates": 6
+  },
+  "train_only": {
+    "status": "PASS",
+    "training_window_calls": 24,
+    "validation_calls_during_training": 0,
+    "best_epoch": 3,
+    "best_train_CE2": 1.3929874089686833,
+    "final_scopes": [
+      "train",
+      "proxy",
+      "full"
+    ]
+  },
+  "early_stop": "PASS: best epoch2, ties do not improve, exactly20 misses stop at epoch22",
+  "full_resume": "PASS: identical model, optimizer, scheduler and RNG",
+  "real_full_gpu_smoke": {
+    "status": "PASS",
+    "device": "cuda",
+    "training_windows": 7,
+    "validation_calls_during_training": 0,
+    "final_scopes": [
+      "full"
+    ],
+    "final_validation_windows": 7,
+    "best_epoch": 1,
+    "test_state_reads": 0,
+    "updates": 2
+  },
+  "model_and_loss_unchanged": true,
+  "source_data_unchanged": true
+}

@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "scheduler": "CosineAnnealingLR",
+  "checked_times": 142,
+  "maximum_formula_error": 3.2526065174565133e-19,
+  "first_epoch_lr": 0.001,
+  "last_epoch_lr": 1.0122862332706771e-05,
+  "after_epoch_141_lr": 1e-05,
+  "model_training_started": false
+}

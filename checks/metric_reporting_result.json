@@ -1,0 +1,41 @@
+{
+  "status": "PASS",
+  "formal_training": false,
+  "real_data_evaluation": false,
+  "loss_metric_max_error": 0.0,
+  "physical_units": "PASS: cg=3, cp=7.5 mol/m^3; phi_p=1 mV; cmax and mV applied once",
+  "electrolyte_both_fields": "PASS: phase2/5 both retain 0.5/0.5",
+  "node_pooled_nrmse_max_error": 0.0,
+  "aggregation": "PASS: unequal node counts, arithmetic window mean, one final square root, empty/zero/nonfinite cases",
+  "selection": "PASS: CE2-only selection; associated Q_ref is not Q_ref minimum; missing validation stays missing",
+  "logging_parameter_max_error": 0.0,
+  "logging_optimizer_and_rng": "PASS: one forward/backward per training window, identical updates and RNG",
+  "pre_clip_norm": 30.247390747070312,
+  "mechanism": "PASS: normal/empty/terminal diagnostic, regions and roles, nonfinite rejection",
+  "resume_parameter_max_error": 0.0,
+  "resume": "PASS: mid-epoch + epoch boundary + two further epochs; recover one missing CSV row; no duplicate IDs",
+  "reported_resume": "PASS: node SSE/count and arithmetic means survive mid-epoch resume",
+  "artificial_full": {
+    "status": "PASS",
+    "device": "cpu",
+    "training_windows": 10,
+    "validation_calls_during_training": 0,
+    "final_scopes": [
+      "full"
+    ],
+    "final_validation_windows": 5,
+    "best_epoch": 2,
+    "test_state_reads": 0,
+    "updates": 4
+  },
+  "early_stop": "PASS: best epoch2, ties do not improve, exactly20 misses stop at epoch22",
+  "historical_postprocessing": {
+    "train_epochs": 141,
+    "validation_epochs": [
+      138
+    ],
+    "original_files_unchanged": true,
+    "missing_validation_epochs": 140,
+    "train_nrmse_epochs": 0
+  }
+}

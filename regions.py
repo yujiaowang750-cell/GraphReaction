@@ -34,9 +34,18 @@ def assign_node_regions(phase, coordinates, bounds):
 
 
 def assign_edge_groups(node_region, connections, relations):
-    """返回 [E]：负极内部、隔膜内部、正极内部、负极-隔膜、隔膜-正极。"""
+    """返回 [E]：负极内部、隔膜内部、正极内部、负极-隔膜、隔膜-正极。
+    将所有12类边分为5大类区域组；
+    0：负极内部
+    1：隔膜内部
+    2：正极内部
+    3：负极 ↔ 隔膜 界面边
+    4：隔膜 ↔ 正极 界面边
+    """
+    # 取出每条边的两个端点id和区域编号之后对区域编号从小到大排序来判断边的方向
     ends = np.sort(node_region[connections], axis=1)
     groups = np.full(len(connections), -1, dtype=np.int64)
+    # 按照两端节点所属区域判断这个边属于哪个区域
     same_region = ends[:, 0] == ends[:, 1]
     groups[same_region] = ends[same_region, 0]
     groups[(ends[:, 0] == 0) & (ends[:, 1] == 1)] = 3

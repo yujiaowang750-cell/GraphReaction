@@ -1,0 +1,13 @@
+{
+  "schedule_schema": "cosine_epoch_141_v1",
+  "scheduler": "CosineAnnealingLR",
+  "max_epochs": 141,
+  "initial_lr": 0.001,
+  "eta_min": 0.00001,
+  "T_max": 141,
+  "step_timing": "once_at_epoch_end_after_optimizer_steps",
+  "time_definition": "number_of_completed_epochs",
+  "monitor": null,
+  "warmup": false,
+  "warm_restarts": false
+}

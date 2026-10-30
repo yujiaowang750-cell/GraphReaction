@@ -3,7 +3,7 @@
 import numpy as np
 import torch
 
-from model_config import RELATION_PHASES
+from model_config import RELATION_PHASES, PAIR_PORT_DIM
 from regions import assign_edge_groups
 
 
@@ -32,11 +32,13 @@ def build_graph_topology(phase, connections, relations, geometry, node_region):
     groups = assign_edge_groups(node_region, connections, relations)
     sender = connections.reshape(-1)
     receiver = connections[:, ::-1].reshape(-1)
+    # 每条原物理边的两个方向使用相同的关系编号
     directed_relations = np.repeat(relations, 2)
-    metadata = np.zeros((2 * num_edges, 30), dtype=np.float32)
+    metadata = np.zeros((2 * num_edges, PAIR_PORT_DIM), dtype=np.float32)
     rows = np.arange(2 * num_edges)
-    metadata[rows, directed_relations] = 1
-    metadata[rows, 14 + phase[sender] - 1] = 1
+    # 普通物理边使用关系编号0-11，反应单元使用12、13
+    metadata[rows, directed_relations] = 1  # 类型 one-hot
+    metadata[rows, 14 + phase[sender] - 1] = 1  # 起点相 one-hot
     metadata[:, 21] = 1  # 四种角色中的第 0 种：物理边端点。
     metadata[0::2, 25:29] = geometry
     metadata[1::2, 25:29] = geometry[:, [0, 3, 2, 1]]

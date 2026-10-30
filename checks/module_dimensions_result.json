@@ -1,0 +1,4860 @@
+{
+  "checked_at": "2026-10-26T09:02:46.612987+08:00",
+  "model_schema": "graphreaction_x13_b30_skipz4_v3",
+  "device": "cuda",
+  "torch_version": "2.14.1+cu126",
+  "production_source_sha256": {
+    "aggregation.py": "c89c4b12a6dae45c93f3039b8d85b0ceb7994b6ae409bae568557611bdf8cf2f",
+    "checkpoint.py": "9d6d698370160418b4ea31250da46b08df01c119808b5579d88e0f3645dca555",
+    "current_loss.py": "d5c363f4fddfe1a9d432f630aa5591cb77fc552b3512820fa3663b04e3bdea35",
+    "data_loader.py": "b446592ae76b3536d843bfd0cb74b145dd5e363094c6ff8138b0214ea2f71053",
+    "decoder.py": "387db8525c362d3c046043bbb50fe0a68cbdfd0d7be85f19bf4c6b2723e25924",
+    "diagnostics.py": "569d4ba2b9cd5f7a5d2ec449353e644fe22fcb974276b1fe0e68be7aede5fa10",
+    "evaluation.py": "26dc04c81582bfdbb0a6a82b26e4fef866ff9e8fe8ed9848c5f941d75e667478",
+    "field_validation.py": "1ba02e09842f43f65dc6a0b48e315ade0f4c0878febbd60970d2fdd58cf5736b",
+    "global_encoder.py": "4131c66b6744529fb25af2a77b10aacba665f8f8e7f72bdbdd2a5bc6b0870eb8",
+    "graph_messages.py": "57ab707661ff8b180eaba024adde8b546dfc66635b4772c689bd6c4708156e21",
+    "graph_topology.py": "3f55777f91374316bd9f00420eed750f4fa054925f96071fbaaa481c113af4f7",
+    "initialization.py": "f4cbf0508f6679e3c0e3b5d52c49dbcd37a19467dcfed0ffd458264765002b5e",
+    "learning_rate.py": "555d8a4807487bed3f3888d553428aa591b38ded112932bd1444b6ecc7fa3f41",
+    "loss.py": "9b2d91f12db1ce06ddafba3daacfeecb86fb230e438c264a9d2fa0c63c355649",
+    "model.py": "7ef5e5a3e0f7fcd053849bda49a15159ea589e6426ae20683d4a768cac513b41",
+    "model_config.py": "7e37d46edc81f4b7222a000375d6c442dca19bdf1f1cc48241b02f3b963f9a32",
+    "model_guide.py": "9f8508937dc51f127e8def285663f1f5204fe3e4b19258a4641e8711aa7bcf70",
+    "node_control.py": "68c5c439ae421ca605e04e92601b56388c4c03279f095d4260903786ca1b0e00",
+    "node_encoder.py": "d9632d1b2b89c42c930dae7e9f68c3b4cf58ef88ba63da34cb1e346808df3455",
+    "node_features.py": "452a371b03ec0e19c6cc739bce16de718e00ed25b3ddbcfd20be3cad2da79399",
+    "normalization.py": "80ddf58bdf16306b137c118c447e6519026f2e8af4c4ea936957030442871349",
+    "plot_training.py": "6f9ff87a4a9b5c42634b255d4cebec2dc34ccec132c3af212cdaa50df2328b62",
+    "processor.py": "6d1e8886b23713b62e23e9b6d6d1707ccea84503614d62c0df183f60a825aac0",
+    "reaction_cache.py": "9e76fa02fb002398f9512d3fffa941216707f8ed88400087c64de3e7a6307ad5",
+    "reaction_control.py": "bbaa9ce6d86919ee89d0cb2ffff940150ee9931fd782a583b190a4d74fe8015e",
+    "reaction_encoder.py": "85ec3d4640ffb3a9c0c39256a1e41b4eae9b157d64d2b8abf7fbd52f7ac3fb9b",
+    "reaction_messages.py": "20ab559582b4aa40bf94236f1a01a43480bf21401321abd367b13cad1815c044",
+    "reaction_topology.py": "a33b3388ffda4b54c8dbd402c6c93970410dc095d0fe662d1dc29f54f9e887fe",
+    "regions.py": "af57d1f6fc92550d275d045b76f6da436c07f4f12993ab6ace2678e495b2156b",
+    "run_files.py": "c47f588b020938dab0ead3b5298aaeee05dbdc02e1fd62972af13ea5094efeb9",
+    "schema.py": "1ef7955c8f83c01b0f3ecee91b5e842f19648ee8111e51ea340faa5426b8efce",
+    "state_output.py": "3af21636783dd736636e1d0bcc654e5edea5b358e706e87345a6092ad124f554",
+    "static_features.py": "2eac1cd050083137599c9b10b2d5b7bd888882d6dc72093c21a8cb49c1d0a573",
+    "trace.py": "03d9981cae4aa62206f1287d15cfd0bb252f6027918d6f632353d89932d52d23",
+    "train.py": "1ff53ed297c33c394be4c5cad51183fc890bf16ce921a94828fc0e665da6f84f",
+    "training_checkpoint.py": "ff204f4cd5f6b0bdf434c1fdea809ac6308026b1a870d548c186af8c92f483ef",
+    "training_config.py": "a914980acdd7eb4d7306f9f89d9a0554c3cd7daaf75013a90c88fcba45a5a2bf",
+    "training_metrics.py": "69b15b7edd78d74614b5671df053a87185e36438eea07fe5e678a89beb1a3f9f",
+    "training_step.py": "d53f475e698cc10f916d2fb2bbc6bb283fee7d55f2bee5f78263083158c15a5c",
+    "training_windows.py": "793ffd50a7de03e50055f9de673a779bab9425c3596368c81f653d7fa5381153",
+    "use_model.py": "1a9cdf9f07a6826c2995b168b3b58ac09b86d2a91d96d7d4f1eb53399e47b502"
+  },
+  "note": "two real windows; fresh model; no optimizer step, checkpoint write or formal training",
+  "parameters": {
+    "node_encoder": 1024,
+    "global_encoder": 29248,
+    "processor.graph_messages": 81920,
+    "processor.node_control": 37632,
+    "processor.reaction_encoder.port_encoder": 6208,
+    "processor.reaction_encoder.initializer": 4352,
+    "processor.reaction_encoder.rate_layers": 62,
+    "processor.reaction_control": 25088,
+    "decoder": 1161,
+    "total": 186695
+  },
+  "windows": [
+    {
+      "scope": "train",
+      "sample_index": 1,
+      "sample_id": "sample_traj_t000000_r001_e000",
+      "time_index": 0,
+      "counts": {
+        "nodes": 9806,
+        "physical_edges": 37183,
+        "directed_edges": 74366,
+        "reactions": 1656,
+        "incidences": 34355
+      },
+      "phase_nodes": {
+        "1": 917,
+        "2": 1535,
+        "3": 739,
+        "4": 6037,
+        "5": 576,
+        "6": 1,
+        "7": 1
+      },
+      "node_regions": [
+        1834,
+        576,
+        7396
+      ],
+      "edge_groups": [
+        25656,
+        2976,
+        44046,
+        884,
+        804
+      ],
+      "reaction_regions": [
+        917,
+        739
+      ],
+      "incidence_regions": [
+        13411,
+        20944
+      ],
+      "nodes_without_reactions": 576,
+      "data_tensors": {
+        "x": {
+          "shape": [
+            9806,
+            13
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        "x_static": {
+          "shape": [
+            9806,
+            4
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        "global_geometry": {
+          "shape": [
+            6
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        "edge_metadata": {
+          "shape": [
+            74366,
+            30
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        "reaction_metadata": {
+          "shape": [
+            34355,
+            30
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        "node_phase": {
+          "shape": [
+            9806
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "node_region": {
+          "shape": [
+            9806
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "edge_index": {
+          "shape": [
+            2,
+            74366
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "edge_index_u": {
+          "shape": [
+            2,
+            37183
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "edge_reverse": {
+          "shape": [
+            74366
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "edge_group": {
+          "shape": [
+            74366
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "edge_physical_index": {
+          "shape": [
+            74366
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "reaction_node": {
+          "shape": [
+            34355
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "reaction_index": {
+          "shape": [
+            34355
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "reaction_role": {
+          "shape": [
+            34355
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "reaction_center": {
+          "shape": [
+            1656
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "reaction_kind": {
+          "shape": [
+            1656
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "reaction_region": {
+          "shape": [
+            1656
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "throat_area_um2": {
+          "shape": [
+            37183
+          ],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "throat_conduit_lengths_um": {
+          "shape": [
+            37183,
+            3
+          ],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "concentration_scale": {
+          "shape": [
+            7
+          ],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "delta_mean": {
+          "shape": [
+            7
+          ],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "delta_std": {
+          "shape": [
+            7
+          ],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "current": {
+          "shape": [
+            9806,
+            2
+          ],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "future": {
+          "shape": [
+            9806,
+            2
+          ],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        }
+      },
+      "layers": {
+        "node_encoder.mlp.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  917,
+                  13
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  917,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1535,
+                  13
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1535,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  739,
+                  13
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  739,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  6037,
+                  13
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  6037,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  576,
+                  13
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  576,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1,
+                  13
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 2
+          }
+        ],
+        "node_encoder.mlp.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  917,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  917,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1535,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1535,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  739,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  739,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  6037,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  6037,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  576,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  576,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 2
+          }
+        ],
+        "node_encoder.mlp.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  917,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  917,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1535,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1535,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  739,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  739,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  6037,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  6037,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  576,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  576,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 2
+          }
+        ],
+        "global_encoder.mlp.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  454
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 2
+          }
+        ],
+        "global_encoder.mlp.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 2
+          }
+        ],
+        "global_encoder.mlp.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 2
+          }
+        ],
+        "processor.reaction_encoder.port_encoder.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  34355,
+                  94
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  34355,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "processor.reaction_encoder.port_encoder.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  34355,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  34355,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "processor.reaction_encoder.port_encoder.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  34355,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  34355,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "processor.reaction_encoder.initializer.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1656,
+                  65
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1656,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "processor.reaction_encoder.initializer.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1656,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1656,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "processor.reaction_encoder.initializer.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1656,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1656,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "processor.reaction_encoder.rate_layers.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  13411,
+                  30
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  13411,
+                  1
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "processor.reaction_encoder.rate_layers.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  20944,
+                  30
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  20944,
+                  1
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "processor.graph_messages.mlps.0.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  25656,
+                  188
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  25656,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.0.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  25656,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  25656,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.0.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  25656,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  25656,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.0.3": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  25656,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  25656,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.1.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  2976,
+                  188
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  2976,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.1.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  2976,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  2976,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.1.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  2976,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  2976,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.1.3": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  2976,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  2976,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.2.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  44046,
+                  188
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  44046,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.2.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  44046,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  44046,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.2.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  44046,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  44046,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.2.3": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  44046,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  44046,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.3.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  884,
+                  188
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  884,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.3.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  884,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  884,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.3.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  884,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  884,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.3.3": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  884,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  884,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.4.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  804,
+                  188
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  804,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.4.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  804,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  804,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.4.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  804,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  804,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.4.3": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  804,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  804,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.node_control.mlps.0.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1834,
+                  128
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1834,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.node_control.mlps.0.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1834,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1834,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.node_control.mlps.0.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1834,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1834,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.node_control.mlps.0.3": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1834,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1834,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.node_control.mlps.1.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  576,
+                  128
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  576,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.node_control.mlps.1.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  576,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  576,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.node_control.mlps.1.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  576,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  576,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.node_control.mlps.1.3": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  576,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  576,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.node_control.mlps.2.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  7396,
+                  128
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  7396,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.node_control.mlps.2.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  7396,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  7396,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.node_control.mlps.2.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  7396,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  7396,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.node_control.mlps.2.3": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  7396,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  7396,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.reaction_control.mlps.0.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  917,
+                  128
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  917,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 3
+          }
+        ],
+        "processor.reaction_control.mlps.0.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  917,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  917,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 3
+          }
+        ],
+        "processor.reaction_control.mlps.0.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  917,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  917,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 3
+          }
+        ],
+        "processor.reaction_control.mlps.0.3": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  917,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  917,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 3
+          }
+        ],
+        "processor.reaction_control.mlps.1.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  739,
+                  128
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  739,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 3
+          }
+        ],
+        "processor.reaction_control.mlps.1.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  739,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  739,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 3
+          }
+        ],
+        "processor.reaction_control.mlps.1.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  739,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  739,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 3
+          }
+        ],
+        "processor.reaction_control.mlps.1.3": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  739,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  739,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 3
+          }
+        ],
+        "decoder.heads.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  917,
+                  128
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  917,
+                  1
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "decoder.heads.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1535,
+                  128
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1535,
+                  2
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "decoder.heads.3": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  739,
+                  128
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  739,
+                  2
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "decoder.heads.4": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  6037,
+                  128
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  6037,
+                  1
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "decoder.heads.5": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  576,
+                  128
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  576,
+                  2
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "decoder.heads.7": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1,
+                  128
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1,
+                  1
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ]
+      },
+      "H": [
+        {
+          "shape": [
+            9806,
+            64
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        {
+          "shape": [
+            9806,
+            64
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        {
+          "shape": [
+            9806,
+            64
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        {
+          "shape": [
+            9806,
+            64
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        {
+          "shape": [
+            9806,
+            64
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        }
+      ],
+      "Z": [
+        {
+          "shape": [
+            1656,
+            64
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        {
+          "shape": [
+            1656,
+            64
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        {
+          "shape": [
+            1656,
+            64
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        {
+          "shape": [
+            1656,
+            64
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        }
+      ],
+      "global_states": {
+        "g0": {
+          "shape": [
+            64
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        "g1": {
+          "shape": [
+            64
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        }
+      },
+      "steps": [
+        {
+          "Dgraph": {
+            "shape": [
+              9806,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "R": {
+            "shape": [
+              9806,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "U": {
+            "shape": [
+              9806,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "q": {
+            "shape": [
+              34355,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "DR": {
+            "shape": [
+              1656,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "UR": {
+            "shape": [
+              1656,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          }
+        },
+        {
+          "Dgraph": {
+            "shape": [
+              9806,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "R": {
+            "shape": [
+              9806,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "U": {
+            "shape": [
+              9806,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "q": {
+            "shape": [
+              34355,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "DR": {
+            "shape": [
+              1656,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "UR": {
+            "shape": [
+              1656,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          }
+        },
+        {
+          "Dgraph": {
+            "shape": [
+              9806,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "R": {
+            "shape": [
+              9806,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "U": {
+            "shape": [
+              9806,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "q": {
+            "shape": [
+              34355,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "DR": {
+            "shape": [
+              1656,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "UR": {
+            "shape": [
+              1656,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          }
+        },
+        {
+          "Dgraph": {
+            "shape": [
+              9806,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "R": {
+            "shape": [
+              9806,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "U": {
+            "shape": [
+              9806,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "q": {
+            "shape": [
+              34355,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "DR": null,
+          "UR": null
+        }
+      ],
+      "fields": {
+        "electrolyte_concentration_mol_m3": {
+          "prediction": {
+            "shape": [
+              2111
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "target": {
+            "shape": [
+              2111
+            ],
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          }
+        },
+        "electrolyte_potential_v": {
+          "prediction": {
+            "shape": [
+              2111
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "target": {
+            "shape": [
+              2111
+            ],
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          }
+        },
+        "negative_graphite_lithiation_fraction": {
+          "prediction": {
+            "shape": [
+              917
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "target": {
+            "shape": [
+              917
+            ],
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          }
+        },
+        "positive_am_lithiation_fraction": {
+          "prediction": {
+            "shape": [
+              739
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "target": {
+            "shape": [
+              739
+            ],
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          }
+        },
+        "positive_am_solid_potential_v": {
+          "prediction": {
+            "shape": [
+              739
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "target": {
+            "shape": [
+              739
+            ],
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          }
+        },
+        "positive_cbd_solid_potential_v": {
+          "prediction": {
+            "shape": [
+              6037
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "target": {
+            "shape": [
+              6037
+            ],
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          }
+        },
+        "positive_collector_potential_v": {
+          "prediction": {
+            "shape": [
+              1
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "target": {
+            "shape": [
+              1
+            ],
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          }
+        }
+      },
+      "physical_state": {
+        "shape": [
+          9806,
+          2
+        ],
+        "dtype": "torch.float64",
+        "device": "cuda:0"
+      },
+      "physical_mask": {
+        "shape": [
+          9806,
+          2
+        ],
+        "dtype": "torch.bool",
+        "device": "cuda:0"
+      },
+      "target_recovery_max_absolute_error": 1.5955180689003262e-38,
+      "losses": {
+        "loss": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "main_loss": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "current_loss": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "predicted_current_A": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "reference_loss": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        }
+      },
+      "field_losses": {
+        "electrolyte_concentration_mol_m3": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "electrolyte_potential_v": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "negative_graphite_lithiation_fraction": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "positive_am_lithiation_fraction": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "positive_am_solid_potential_v": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "positive_cbd_solid_potential_v": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "positive_collector_potential_v": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        }
+      },
+      "backward": "PASS: all registered parameters have finite gradients (zero is allowed)",
+      "status": "PASS"
+    },
+    {
+      "scope": "proxy",
+      "sample_index": 0,
+      "sample_id": "sample_traj_t000000_r000_e000",
+      "time_index": 0,
+      "counts": {
+        "nodes": 9806,
+        "physical_edges": 37487,
+        "directed_edges": 74974,
+        "reactions": 1660,
+        "incidences": 34523
+      },
+      "phase_nodes": {
+        "1": 923,
+        "2": 1569,
+        "3": 737,
+        "4": 5999,
+        "5": 576,
+        "6": 1,
+        "7": 1
+      },
+      "node_regions": [
+        1864,
+        576,
+        7366
+      ],
+      "edge_groups": [
+        26198,
+        2976,
+        44202,
+        866,
+        732
+      ],
+      "reaction_regions": [
+        923,
+        737
+      ],
+      "incidence_regions": [
+        13602,
+        20921
+      ],
+      "nodes_without_reactions": 576,
+      "data_tensors": {
+        "x": {
+          "shape": [
+            9806,
+            13
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        "x_static": {
+          "shape": [
+            9806,
+            4
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        "global_geometry": {
+          "shape": [
+            6
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        "edge_metadata": {
+          "shape": [
+            74974,
+            30
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        "reaction_metadata": {
+          "shape": [
+            34523,
+            30
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        "node_phase": {
+          "shape": [
+            9806
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "node_region": {
+          "shape": [
+            9806
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "edge_index": {
+          "shape": [
+            2,
+            74974
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "edge_index_u": {
+          "shape": [
+            2,
+            37487
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "edge_reverse": {
+          "shape": [
+            74974
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "edge_group": {
+          "shape": [
+            74974
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "edge_physical_index": {
+          "shape": [
+            74974
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "reaction_node": {
+          "shape": [
+            34523
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "reaction_index": {
+          "shape": [
+            34523
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "reaction_role": {
+          "shape": [
+            34523
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "reaction_center": {
+          "shape": [
+            1660
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "reaction_kind": {
+          "shape": [
+            1660
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "reaction_region": {
+          "shape": [
+            1660
+          ],
+          "dtype": "torch.int64",
+          "device": "cuda:0"
+        },
+        "throat_area_um2": {
+          "shape": [
+            37487
+          ],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "throat_conduit_lengths_um": {
+          "shape": [
+            37487,
+            3
+          ],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "concentration_scale": {
+          "shape": [
+            7
+          ],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "delta_mean": {
+          "shape": [
+            7
+          ],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "delta_std": {
+          "shape": [
+            7
+          ],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "current": {
+          "shape": [
+            9806,
+            2
+          ],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "future": {
+          "shape": [
+            9806,
+            2
+          ],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        }
+      },
+      "layers": {
+        "node_encoder.mlp.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  923,
+                  13
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  923,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1569,
+                  13
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1569,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  737,
+                  13
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  737,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  5999,
+                  13
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  5999,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  576,
+                  13
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  576,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1,
+                  13
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 2
+          }
+        ],
+        "node_encoder.mlp.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  923,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  923,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1569,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1569,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  737,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  737,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  5999,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  5999,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  576,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  576,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 2
+          }
+        ],
+        "node_encoder.mlp.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  923,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  923,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1569,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1569,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  737,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  737,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  5999,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  5999,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  576,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  576,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          },
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 2
+          }
+        ],
+        "global_encoder.mlp.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  454
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 2
+          }
+        ],
+        "global_encoder.mlp.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 2
+          }
+        ],
+        "global_encoder.mlp.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 2
+          }
+        ],
+        "processor.reaction_encoder.port_encoder.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  34523,
+                  94
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  34523,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "processor.reaction_encoder.port_encoder.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  34523,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  34523,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "processor.reaction_encoder.port_encoder.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  34523,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  34523,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "processor.reaction_encoder.initializer.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1660,
+                  65
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1660,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "processor.reaction_encoder.initializer.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1660,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1660,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "processor.reaction_encoder.initializer.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1660,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1660,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "processor.reaction_encoder.rate_layers.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  13602,
+                  30
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  13602,
+                  1
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "processor.reaction_encoder.rate_layers.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  20921,
+                  30
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  20921,
+                  1
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "processor.graph_messages.mlps.0.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  26198,
+                  188
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  26198,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.0.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  26198,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  26198,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.0.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  26198,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  26198,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.0.3": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  26198,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  26198,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.1.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  2976,
+                  188
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  2976,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.1.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  2976,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  2976,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.1.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  2976,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  2976,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.1.3": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  2976,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  2976,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.2.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  44202,
+                  188
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  44202,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.2.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  44202,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  44202,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.2.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  44202,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  44202,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.2.3": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  44202,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  44202,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.3.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  866,
+                  188
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  866,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.3.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  866,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  866,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.3.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  866,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  866,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.3.3": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  866,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  866,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.4.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  732,
+                  188
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  732,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.4.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  732,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  732,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.4.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  732,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  732,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.graph_messages.mlps.4.3": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  732,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  732,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.node_control.mlps.0.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1864,
+                  128
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1864,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.node_control.mlps.0.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1864,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1864,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.node_control.mlps.0.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1864,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1864,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.node_control.mlps.0.3": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1864,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1864,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.node_control.mlps.1.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  576,
+                  128
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  576,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.node_control.mlps.1.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  576,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  576,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.node_control.mlps.1.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  576,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  576,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.node_control.mlps.1.3": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  576,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  576,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.node_control.mlps.2.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  7366,
+                  128
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  7366,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.node_control.mlps.2.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  7366,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  7366,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.node_control.mlps.2.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  7366,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  7366,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.node_control.mlps.2.3": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  7366,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  7366,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 4
+          }
+        ],
+        "processor.reaction_control.mlps.0.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  923,
+                  128
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  923,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 3
+          }
+        ],
+        "processor.reaction_control.mlps.0.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  923,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  923,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 3
+          }
+        ],
+        "processor.reaction_control.mlps.0.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  923,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  923,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 3
+          }
+        ],
+        "processor.reaction_control.mlps.0.3": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  923,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  923,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 3
+          }
+        ],
+        "processor.reaction_control.mlps.1.0": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  737,
+                  128
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  737,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 3
+          }
+        ],
+        "processor.reaction_control.mlps.1.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  737,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  737,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 3
+          }
+        ],
+        "processor.reaction_control.mlps.1.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  737,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  737,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 3
+          }
+        ],
+        "processor.reaction_control.mlps.1.3": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  737,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  737,
+                  64
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 3
+          }
+        ],
+        "decoder.heads.1": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  923,
+                  128
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  923,
+                  1
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "decoder.heads.2": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1569,
+                  128
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1569,
+                  2
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "decoder.heads.3": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  737,
+                  128
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  737,
+                  2
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "decoder.heads.4": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  5999,
+                  128
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  5999,
+                  1
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "decoder.heads.5": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  576,
+                  128
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  576,
+                  2
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ],
+        "decoder.heads.7": [
+          {
+            "shapes": {
+              "input": {
+                "shape": [
+                  1,
+                  128
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "output": {
+                "shape": [
+                  1,
+                  1
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              }
+            },
+            "calls": 1
+          }
+        ]
+      },
+      "H": [
+        {
+          "shape": [
+            9806,
+            64
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        {
+          "shape": [
+            9806,
+            64
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        {
+          "shape": [
+            9806,
+            64
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        {
+          "shape": [
+            9806,
+            64
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        {
+          "shape": [
+            9806,
+            64
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        }
+      ],
+      "Z": [
+        {
+          "shape": [
+            1660,
+            64
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        {
+          "shape": [
+            1660,
+            64
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        {
+          "shape": [
+            1660,
+            64
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        {
+          "shape": [
+            1660,
+            64
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        }
+      ],
+      "global_states": {
+        "g0": {
+          "shape": [
+            64
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        "g1": {
+          "shape": [
+            64
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        }
+      },
+      "steps": [
+        {
+          "Dgraph": {
+            "shape": [
+              9806,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "R": {
+            "shape": [
+              9806,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "U": {
+            "shape": [
+              9806,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "q": {
+            "shape": [
+              34523,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "DR": {
+            "shape": [
+              1660,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "UR": {
+            "shape": [
+              1660,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          }
+        },
+        {
+          "Dgraph": {
+            "shape": [
+              9806,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "R": {
+            "shape": [
+              9806,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "U": {
+            "shape": [
+              9806,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "q": {
+            "shape": [
+              34523,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "DR": {
+            "shape": [
+              1660,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "UR": {
+            "shape": [
+              1660,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          }
+        },
+        {
+          "Dgraph": {
+            "shape": [
+              9806,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "R": {
+            "shape": [
+              9806,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "U": {
+            "shape": [
+              9806,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "q": {
+            "shape": [
+              34523,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "DR": {
+            "shape": [
+              1660,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "UR": {
+            "shape": [
+              1660,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          }
+        },
+        {
+          "Dgraph": {
+            "shape": [
+              9806,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "R": {
+            "shape": [
+              9806,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "U": {
+            "shape": [
+              9806,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "q": {
+            "shape": [
+              34523,
+              64
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "DR": null,
+          "UR": null
+        }
+      ],
+      "fields": {
+        "electrolyte_concentration_mol_m3": {
+          "prediction": {
+            "shape": [
+              2145
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "target": {
+            "shape": [
+              2145
+            ],
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          }
+        },
+        "electrolyte_potential_v": {
+          "prediction": {
+            "shape": [
+              2145
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "target": {
+            "shape": [
+              2145
+            ],
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          }
+        },
+        "negative_graphite_lithiation_fraction": {
+          "prediction": {
+            "shape": [
+              923
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "target": {
+            "shape": [
+              923
+            ],
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          }
+        },
+        "positive_am_lithiation_fraction": {
+          "prediction": {
+            "shape": [
+              737
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "target": {
+            "shape": [
+              737
+            ],
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          }
+        },
+        "positive_am_solid_potential_v": {
+          "prediction": {
+            "shape": [
+              737
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "target": {
+            "shape": [
+              737
+            ],
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          }
+        },
+        "positive_cbd_solid_potential_v": {
+          "prediction": {
+            "shape": [
+              5999
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "target": {
+            "shape": [
+              5999
+            ],
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          }
+        },
+        "positive_collector_potential_v": {
+          "prediction": {
+            "shape": [
+              1
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:0"
+          },
+          "target": {
+            "shape": [
+              1
+            ],
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          }
+        }
+      },
+      "physical_state": {
+        "shape": [
+          9806,
+          2
+        ],
+        "dtype": "torch.float64",
+        "device": "cuda:0"
+      },
+      "physical_mask": {
+        "shape": [
+          9806,
+          2
+        ],
+        "dtype": "torch.bool",
+        "device": "cuda:0"
+      },
+      "target_recovery_max_absolute_error": 7.654595490049097e-39,
+      "losses": {
+        "loss": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "main_loss": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "current_loss": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "predicted_current_A": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "reference_loss": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        }
+      },
+      "field_losses": {
+        "electrolyte_concentration_mol_m3": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "electrolyte_potential_v": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "negative_graphite_lithiation_fraction": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "positive_am_lithiation_fraction": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "positive_am_solid_potential_v": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "positive_cbd_solid_potential_v": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        },
+        "positive_collector_potential_v": {
+          "shape": [],
+          "dtype": "torch.float64",
+          "device": "cuda:0"
+        }
+      },
+      "backward": "PASS: all registered parameters have finite gradients (zero is allowed)",
+      "status": "PASS"
+    }
+  ],
+  "production_sources_unchanged": true,
+  "status": "PASS"
+}

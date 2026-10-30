@@ -4,26 +4,28 @@ import torch
 from torch import nn
 
 from aggregation import mean_by_index
-from model_config import HIDDEN_DIM, LAYER_NORM_EPS
+from model_config import HIDDEN_DIM, LAYER_NORM_EPS, REACTION_PORT_DIM
 
 
 class ReactionEncoder(nn.Module):
     def __init__(self):
         super().__init__()
         self.port_encoder = nn.Sequential(
-            nn.Linear(94, HIDDEN_DIM),  # 成员节点 64 + 成员说明向量 30。
+            nn.Linear(HIDDEN_DIM + REACTION_PORT_DIM, HIDDEN_DIM),  # 成员节点64 + 反应属性30 = 94。
             nn.ReLU(), nn.LayerNorm(HIDDEN_DIM, eps=LAYER_NORM_EPS),
         )
         self.initializer = nn.Sequential(
             nn.Linear(65, HIDDEN_DIM),  # 成员均值 64 + log(1+成员数) 1。
             nn.ReLU(), nn.LayerNorm(HIDDEN_DIM, eps=LAYER_NORM_EPS),
         )
-        # 负极、正极各一个线性层；不读取节点动态状态。
-        self.rate_layers = nn.ModuleList([nn.Linear(30, 1) for _ in range(2)])
+        # 负极、正极各一个Linear(30,1)；不读取节点动态状态。
+        self.rate_layers = nn.ModuleList([nn.Linear(REACTION_PORT_DIM, 1) for _ in range(2)])
 
     def forward(self, node_hidden, data):
         """返回反应单元状态 [R,64] 和成员 rate [L,1]，四次更新共用这个 rate。"""
         num_units = len(data.reaction_center)
+        if data.reaction_metadata.shape != (len(data.reaction_node), REACTION_PORT_DIM):
+            raise ValueError("反应属性必须是 [P_R,30]；请用 build_reaction_topology 重建，不能直接复用b12缓存。")
         if num_units == 0:
             return node_hidden.new_zeros((0, HIDDEN_DIM)), node_hidden.new_zeros((0, 1))
         inputs = torch.cat([node_hidden[data.reaction_node], data.reaction_metadata], dim=1)

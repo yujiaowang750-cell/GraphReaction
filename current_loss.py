@@ -22,6 +22,9 @@ def predict_collector_current(future_state, data):
         raise ValueError("集流体接触的固相端长度必须大于零。")
     area = data.throat_area_um2[selected]
     conductivity = torch.where(phase[solid] == 3, area.new_tensor(AM_CONDUCTIVITY), area.new_tensor(CBD_CONDUCTIVITY))
+    # 1e-12 是导率的单位，1e-6 是长度的单位，1e-6 是面积的单位。
+    # 导率的单位为 S/m，长度的单位为 m，面积的单位为 m23，单位为 A。
+    # 所以，导率 * 面积 / 长度 = 电流。
     conductance = conductivity * area * 1e-12 / (solid_length * 1e-6)
     return (conductance * (future_state[solid, 1] - future_state[collector, 1])).sum()
 

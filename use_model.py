@@ -36,6 +36,7 @@ def main():
     print("节点输入：", tuple(data.x.shape))
     print("物理边：", data.edge_index_u.shape[1], "；有向边：", data.edge_index.shape[1])
     print("反应单元：", len(data.reaction_center), "；成员记录：", len(data.reaction_node))
+    print("反应属性：", tuple(data.reaction_metadata.shape), "；最后可用 Z 的轮次：", output["reaction_hidden_step"])
     for name in ("node_hidden", "reaction_hidden", "reaction_rate"):
         print(name, tuple(output[name].shape))
     for field, prediction in output["prediction"].items():

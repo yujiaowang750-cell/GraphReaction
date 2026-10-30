@@ -114,6 +114,9 @@ def check_topology(data, original):
 
 
 def main():
+    from model_config import NODE_INPUT_DIM
+    if NODE_INPUT_DIM != 17:
+        raise ValueError("这是历史 X17 版本的完整网络等价检查；新版请运行 checks/check_version2.py。历史 comparison_result.json 保留不覆盖。")
     torch.set_num_threads(2)
     ref = reference_definitions()
     dataset = ref['Dataset'](DATA_ROOT)

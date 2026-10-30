@@ -20,12 +20,14 @@ def compute_loss(prediction, target, current_state, data):
         squared_error = (prediction[field].double() - target[field]).square()
         if index < 2:
             phase = data.node_phase[data.field_nodes[field]]
+            # 计算电解液两个字段的增量 MSE 并合并
             value = 0.5 * (squared_error[phase == 2].mean() + squared_error[phase == 5].mean())
         else:
             value = squared_error.mean()
         field_losses[field] = value
     values = torch.stack(list(field_losses.values()))
     weights = values.new_tensor(FIELD_WEIGHTS)
+    # 计算七字段标准化增量 MSE
     main_loss = (values * weights).sum() / weights.sum()
     future, _ = recover_physical_state(current_state, prediction, data)
     current_loss, predicted_current = compute_current_loss(future, data)

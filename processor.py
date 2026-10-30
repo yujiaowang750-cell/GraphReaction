@@ -1,4 +1,4 @@
-"""四次同步更新：物理图分支、反应分支和控制分支共同更新节点与反应状态。"""
+"""共享参数的四轮同步更新：默认得到 H4/Z3，诊断模式才补算 Z4。"""
 
 from torch import nn
 
@@ -8,6 +8,7 @@ from reaction_encoder import ReactionEncoder
 from reaction_control import ReactionControl
 from reaction_messages import reaction_messages
 from model_config import PROCESSOR_STEPS, STEP_SIZE, CONTROL_WEIGHT
+from trace import record_capture, validate_capture
 
 
 class Processor(nn.Module):
@@ -19,21 +20,47 @@ class Processor(nn.Module):
         self.reaction_encoder = ReactionEncoder()
         self.reaction_control = ReactionControl()
 
-    def forward(self, node_hidden, global_hidden, data):
-        """H0 [N,64]、g0 [64] -> H4 [N,64]、Z4 [R,64]、rate [L,1]。
+    def advance(self, node_hidden, reaction_hidden, global_hidden, rate, data, update_reaction=True):
+        """右侧全用旧 H/Z；关闭 update_reaction 时不计算 DR、UR 和 Z_next。"""
+        graph_message = self.graph_messages(node_hidden, data)
+        # 节点控制器计算节点控制信号
+        node_control = self.node_control(node_hidden, global_hidden, data.node_region)
+        node_reaction, unit_reaction, q = reaction_messages(
+            node_hidden, reaction_hidden, rate, data, update_reaction)
+        unit_control, next_units = None, None
+        if update_reaction:
+            # 反应控制器计算反应控制信号
+            unit_control = self.reaction_control(reaction_hidden, global_hidden, data.reaction_region)
+            # 更新反应隐藏状态
+            next_units = reaction_hidden + STEP_SIZE * (unit_reaction + CONTROL_WEIGHT * unit_control)
+        # 更新节点隐藏状态
+        next_nodes = node_hidden + STEP_SIZE * (graph_message + node_reaction + CONTROL_WEIGHT * node_control)
+        parts = dict(Dgraph=graph_message, R=node_reaction, U=node_control,
+                     q=q, DR=unit_reaction, UR=unit_control)
+        return next_nodes, next_units, parts
 
-        四次更新共享同一套参数，g0 和 rate 只在循环前计算一次，梯度保持连接。
-        四次是网络内部迭代，不代表向未来预测四个时间步。
+    def forward(self, node_hidden, global_hidden, data, compute_terminal_reaction=False, capture=False):
+        """Z0、g0、rate 每次前向只计算一次；循环中不 detach，不重建 Z。
+
+        capture 仅保存已计算的张量。compute_terminal_reaction=True 才计算末轮 Z4。
+        返回最后可用的 Z 及真实轮次，默认是 3，完整诊断时是 4。
         """
         reaction_hidden, rate = self.reaction_encoder(node_hidden, data)
-        for _ in range(PROCESSOR_STEPS):
-            graph_message = self.graph_messages(node_hidden, data)
-            node_control = self.node_control(node_hidden, global_hidden, data.node_region)
-            node_reaction, unit_reaction = reaction_messages(node_hidden, reaction_hidden, rate, data)
-            unit_control = self.reaction_control(reaction_hidden, global_hidden, data.reaction_region)
-
-            # 所有右侧量都来自旧 H、旧 Z；先算两份新值，再一起替换。
-            next_nodes = node_hidden + STEP_SIZE * (graph_message + node_reaction + CONTROL_WEIGHT * node_control)
-            next_units = reaction_hidden + STEP_SIZE * (unit_reaction + CONTROL_WEIGHT * unit_control)
-            node_hidden, reaction_hidden = next_nodes, next_units
-        return node_hidden, reaction_hidden, rate
+        # 节点隐藏状态与超边隐藏状态分别记录
+        trace = dict(H=[node_hidden], Z=[reaction_hidden], steps=[]) if capture else None
+        reaction_step = 0
+        # Processor_step是4轮
+        for step in range(PROCESSOR_STEPS):
+            update_reaction = step < PROCESSOR_STEPS - 1 or compute_terminal_reaction
+            next_nodes, next_units, parts = self.advance(
+                node_hidden, reaction_hidden, global_hidden, rate, data, update_reaction)
+            if capture:
+                record_capture(trace, next_nodes, next_units, parts)
+            node_hidden = next_nodes
+            if next_units is not None:
+                reaction_hidden = next_units
+                reaction_step = step + 1
+        if capture:
+            trace.update(a=rate, g0=global_hidden, reaction_hidden_step=reaction_step)
+            validate_capture(trace, PROCESSOR_STEPS, compute_terminal_reaction)
+        return node_hidden, reaction_hidden, rate, reaction_step, trace

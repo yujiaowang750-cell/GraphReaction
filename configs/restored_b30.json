@@ -1,0 +1,375 @@
+{
+  "configuration": {
+    "model_schema": "graphreaction_x13_b30_skipz4_v3",
+    "feature_identity": {
+      "node": "phase7_zyx_volume_concentration_potential_v2",
+      "pair": "physical_pair_b30_v1",
+      "reaction": "reaction_kind14_phase7_role4_geometry_b30_v3"
+    },
+    "node_input_dim": 13,
+    "pair_port_dim": 30,
+    "reaction_port_dim": 30,
+    "hidden_dim": 64,
+    "processor_steps": 4,
+    "eta": 0.25,
+    "gamma": 0.1,
+    "activation": "ReLU",
+    "layer_norm_eps": 1e-05,
+    "compute_terminal_reaction": false,
+    "fields": [
+      "electrolyte_concentration_mol_m3",
+      "electrolyte_potential_v",
+      "negative_graphite_lithiation_fraction",
+      "positive_am_lithiation_fraction",
+      "positive_am_solid_potential_v",
+      "positive_cbd_solid_potential_v",
+      "positive_collector_potential_v"
+    ],
+    "decoder_columns": [
+      0,
+      1,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "field_weights": [
+      2.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "current_loss_weight": 0.1,
+    "input_dtype": "float32",
+    "physical_and_loss_dtype": "float64",
+    "normalization": "unchanged_saved_train_statistics",
+    "prediction_horizon": 1
+  },
+  "configuration_hash": "6c17c9c041c4f762398d0252b5775e01032a08dba6784214c76b6c2ea9d279e6",
+  "initialization": {
+    "model_schema": "graphreaction_x13_b30_skipz4_v3",
+    "configuration_hash": "6c17c9c041c4f762398d0252b5775e01032a08dba6784214c76b6c2ea9d279e6",
+    "seed": 2026,
+    "rule": "Xavier; bias=0; LayerNorm=1/0; rate=0; control_last=0; group_copy_independent_storage",
+    "parameter_audit": {
+      "node_encoder": 1024,
+      "reaction_port_encoder": 6208,
+      "reaction_rates": 62,
+      "total": 186695,
+      "shapes": {
+        "node_encoder.mlp.0.weight": [
+          64,
+          13
+        ],
+        "node_encoder.mlp.0.bias": [
+          64
+        ],
+        "node_encoder.mlp.2.weight": [
+          64
+        ],
+        "node_encoder.mlp.2.bias": [
+          64
+        ],
+        "global_encoder.mlp.0.weight": [
+          64,
+          454
+        ],
+        "global_encoder.mlp.0.bias": [
+          64
+        ],
+        "global_encoder.mlp.2.weight": [
+          64
+        ],
+        "global_encoder.mlp.2.bias": [
+          64
+        ],
+        "processor.graph_messages.mlps.0.0.weight": [
+          64,
+          188
+        ],
+        "processor.graph_messages.mlps.0.0.bias": [
+          64
+        ],
+        "processor.graph_messages.mlps.0.2.weight": [
+          64
+        ],
+        "processor.graph_messages.mlps.0.2.bias": [
+          64
+        ],
+        "processor.graph_messages.mlps.0.3.weight": [
+          64,
+          64
+        ],
+        "processor.graph_messages.mlps.0.3.bias": [
+          64
+        ],
+        "processor.graph_messages.mlps.1.0.weight": [
+          64,
+          188
+        ],
+        "processor.graph_messages.mlps.1.0.bias": [
+          64
+        ],
+        "processor.graph_messages.mlps.1.2.weight": [
+          64
+        ],
+        "processor.graph_messages.mlps.1.2.bias": [
+          64
+        ],
+        "processor.graph_messages.mlps.1.3.weight": [
+          64,
+          64
+        ],
+        "processor.graph_messages.mlps.1.3.bias": [
+          64
+        ],
+        "processor.graph_messages.mlps.2.0.weight": [
+          64,
+          188
+        ],
+        "processor.graph_messages.mlps.2.0.bias": [
+          64
+        ],
+        "processor.graph_messages.mlps.2.2.weight": [
+          64
+        ],
+        "processor.graph_messages.mlps.2.2.bias": [
+          64
+        ],
+        "processor.graph_messages.mlps.2.3.weight": [
+          64,
+          64
+        ],
+        "processor.graph_messages.mlps.2.3.bias": [
+          64
+        ],
+        "processor.graph_messages.mlps.3.0.weight": [
+          64,
+          188
+        ],
+        "processor.graph_messages.mlps.3.0.bias": [
+          64
+        ],
+        "processor.graph_messages.mlps.3.2.weight": [
+          64
+        ],
+        "processor.graph_messages.mlps.3.2.bias": [
+          64
+        ],
+        "processor.graph_messages.mlps.3.3.weight": [
+          64,
+          64
+        ],
+        "processor.graph_messages.mlps.3.3.bias": [
+          64
+        ],
+        "processor.graph_messages.mlps.4.0.weight": [
+          64,
+          188
+        ],
+        "processor.graph_messages.mlps.4.0.bias": [
+          64
+        ],
+        "processor.graph_messages.mlps.4.2.weight": [
+          64
+        ],
+        "processor.graph_messages.mlps.4.2.bias": [
+          64
+        ],
+        "processor.graph_messages.mlps.4.3.weight": [
+          64,
+          64
+        ],
+        "processor.graph_messages.mlps.4.3.bias": [
+          64
+        ],
+        "processor.node_control.mlps.0.0.weight": [
+          64,
+          128
+        ],
+        "processor.node_control.mlps.0.0.bias": [
+          64
+        ],
+        "processor.node_control.mlps.0.2.weight": [
+          64
+        ],
+        "processor.node_control.mlps.0.2.bias": [
+          64
+        ],
+        "processor.node_control.mlps.0.3.weight": [
+          64,
+          64
+        ],
+        "processor.node_control.mlps.0.3.bias": [
+          64
+        ],
+        "processor.node_control.mlps.1.0.weight": [
+          64,
+          128
+        ],
+        "processor.node_control.mlps.1.0.bias": [
+          64
+        ],
+        "processor.node_control.mlps.1.2.weight": [
+          64
+        ],
+        "processor.node_control.mlps.1.2.bias": [
+          64
+        ],
+        "processor.node_control.mlps.1.3.weight": [
+          64,
+          64
+        ],
+        "processor.node_control.mlps.1.3.bias": [
+          64
+        ],
+        "processor.node_control.mlps.2.0.weight": [
+          64,
+          128
+        ],
+        "processor.node_control.mlps.2.0.bias": [
+          64
+        ],
+        "processor.node_control.mlps.2.2.weight": [
+          64
+        ],
+        "processor.node_control.mlps.2.2.bias": [
+          64
+        ],
+        "processor.node_control.mlps.2.3.weight": [
+          64,
+          64
+        ],
+        "processor.node_control.mlps.2.3.bias": [
+          64
+        ],
+        "processor.reaction_encoder.port_encoder.0.weight": [
+          64,
+          94
+        ],
+        "processor.reaction_encoder.port_encoder.0.bias": [
+          64
+        ],
+        "processor.reaction_encoder.port_encoder.2.weight": [
+          64
+        ],
+        "processor.reaction_encoder.port_encoder.2.bias": [
+          64
+        ],
+        "processor.reaction_encoder.initializer.0.weight": [
+          64,
+          65
+        ],
+        "processor.reaction_encoder.initializer.0.bias": [
+          64
+        ],
+        "processor.reaction_encoder.initializer.2.weight": [
+          64
+        ],
+        "processor.reaction_encoder.initializer.2.bias": [
+          64
+        ],
+        "processor.reaction_encoder.rate_layers.0.weight": [
+          1,
+          30
+        ],
+        "processor.reaction_encoder.rate_layers.0.bias": [
+          1
+        ],
+        "processor.reaction_encoder.rate_layers.1.weight": [
+          1,
+          30
+        ],
+        "processor.reaction_encoder.rate_layers.1.bias": [
+          1
+        ],
+        "processor.reaction_control.mlps.0.0.weight": [
+          64,
+          128
+        ],
+        "processor.reaction_control.mlps.0.0.bias": [
+          64
+        ],
+        "processor.reaction_control.mlps.0.2.weight": [
+          64
+        ],
+        "processor.reaction_control.mlps.0.2.bias": [
+          64
+        ],
+        "processor.reaction_control.mlps.0.3.weight": [
+          64,
+          64
+        ],
+        "processor.reaction_control.mlps.0.3.bias": [
+          64
+        ],
+        "processor.reaction_control.mlps.1.0.weight": [
+          64,
+          128
+        ],
+        "processor.reaction_control.mlps.1.0.bias": [
+          64
+        ],
+        "processor.reaction_control.mlps.1.2.weight": [
+          64
+        ],
+        "processor.reaction_control.mlps.1.2.bias": [
+          64
+        ],
+        "processor.reaction_control.mlps.1.3.weight": [
+          64,
+          64
+        ],
+        "processor.reaction_control.mlps.1.3.bias": [
+          64
+        ],
+        "decoder.heads.1.weight": [
+          1,
+          128
+        ],
+        "decoder.heads.1.bias": [
+          1
+        ],
+        "decoder.heads.2.weight": [
+          2,
+          128
+        ],
+        "decoder.heads.2.bias": [
+          2
+        ],
+        "decoder.heads.3.weight": [
+          2,
+          128
+        ],
+        "decoder.heads.3.bias": [
+          2
+        ],
+        "decoder.heads.4.weight": [
+          1,
+          128
+        ],
+        "decoder.heads.4.bias": [
+          1
+        ],
+        "decoder.heads.5.weight": [
+          2,
+          128
+        ],
+        "decoder.heads.5.bias": [
+          2
+        ],
+        "decoder.heads.7.weight": [
+          1,
+          128
+        ],
+        "decoder.heads.7.bias": [
+          1
+        ]
+      }
+    }
+  }
+}

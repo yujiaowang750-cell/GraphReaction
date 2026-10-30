@@ -1,13 +1,16 @@
-"""按参考模型初始化参数；同组模块初值相同，但训练参数各自独立。"""
+"""初始化参数；同组模块初值相同，但训练参数各自独立。"""
 
 import torch
 from torch import nn
 
 from model import GraphReactionModel
+from model_config import MODEL_SCHEMA
+from schema import configuration_hash
+from checkpoint import parameter_audit
 
 
 def create_model(seed=2026, device="cpu"):
-    """创建模型并执行原初始化；不用旧模型权重填充，也不改变外部 CPU 随机状态。"""
+    """创建模型并执行原初始化"""
     with torch.random.fork_rng(devices=[]):
         torch.random.default_generator.manual_seed(seed)
         model = GraphReactionModel()
@@ -35,4 +38,9 @@ def create_model(seed=2026, device="cpu"):
         for modules in groups:
             for module in modules[1:]:
                 module.load_state_dict(modules[0].state_dict())
+    model.initialization_manifest = dict(
+        model_schema=MODEL_SCHEMA, configuration_hash=configuration_hash(), seed=seed,
+        rule="Xavier; bias=0; LayerNorm=1/0; rate=0; control_last=0; group_copy_independent_storage",
+        parameter_audit=parameter_audit(model),
+    )
     return model.to(device)

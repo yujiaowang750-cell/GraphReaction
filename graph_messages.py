@@ -4,7 +4,7 @@ import torch
 from torch import nn
 
 from aggregation import mean_by_index
-from model_config import HIDDEN_DIM, LAYER_NORM_EPS, EDGE_GROUP_NAMES
+from model_config import HIDDEN_DIM, LAYER_NORM_EPS, EDGE_GROUP_NAMES, PAIR_PORT_DIM
 
 
 class GraphMessages(nn.Module):
@@ -12,7 +12,7 @@ class GraphMessages(nn.Module):
         super().__init__()
         self.mlps = nn.ModuleList([
             nn.Sequential(
-                nn.Linear(188, HIDDEN_DIM),  # 两端节点 64+64，两端说明向量 30+30。
+                nn.Linear(2 * HIDDEN_DIM + 2 * PAIR_PORT_DIM, HIDDEN_DIM),  # 188维输入，物理端口为 30 维。
                 nn.ReLU(),
                 nn.LayerNorm(HIDDEN_DIM, eps=LAYER_NORM_EPS),
                 nn.Linear(HIDDEN_DIM, HIDDEN_DIM),
@@ -27,6 +27,7 @@ class GraphMessages(nn.Module):
             node_hidden[sender], node_hidden[receiver],
             data.edge_metadata, data.edge_metadata[data.edge_reverse],
         ], dim=1)  # [2E,188]
+        # 计算每个节点的物理图消息
         messages = node_hidden.new_zeros((len(sender), HIDDEN_DIM))
         for group, mlp in enumerate(self.mlps):
             edges = torch.where(data.edge_group == group)[0]

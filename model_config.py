@@ -1,6 +1,14 @@
-"""参考 GraphReaction 的固定配置；这里只集中列出模型真正使用的量。"""
+"""30维普通/反应端口；保留X13和末轮不计算Z4。"""
 
 HIDDEN_DIM = 64
+NODE_INPUT_DIM = 13
+PAIR_PORT_DIM = 30
+REACTION_PORT_DIM = 30
+# 端口列定义采用30维输入；完整模型使用X13。
+MODEL_SCHEMA = "graphreaction_x13_b30_skipz4_v3"
+NODE_SCHEMA = "phase7_zyx_volume_concentration_potential_v2"
+PAIR_SCHEMA = "physical_pair_b30_v1"
+REACTION_SCHEMA = "reaction_kind14_phase7_role4_geometry_b30_v3"
 PROCESSOR_STEPS = 4
 STEP_SIZE = 0.25
 CONTROL_WEIGHT = 0.1

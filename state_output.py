@@ -11,6 +11,7 @@ def build_delta_targets(current_state, future_state, data):
     for index, field in enumerate(FIELD_NAMES):
         nodes = data.field_nodes[field]
         column = FIELD_STATE_COLUMNS[index]
+        # 计算增量，构造标准化标签量量
         difference = future_state[nodes, column] - current_state[nodes, column]
         targets[field] = (difference - data.delta_mean[index]) / data.delta_std[index]
     return targets

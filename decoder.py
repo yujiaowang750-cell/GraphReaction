@@ -10,6 +10,7 @@ from model_config import DECODER_DIMS, FIELD_NAMES
 class PhaseDecoder(nn.Module):
     def __init__(self):
         super().__init__()
+        # 每个解码头的输入维度为 128，输出维度为对应字段的增量维度。
         self.heads = nn.ModuleDict({str(phase): nn.Linear(128, size) for phase, size in DECODER_DIMS.items()})
 
     def forward(self, node_hidden, global_hidden, data):
