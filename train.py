@@ -25,7 +25,7 @@ from learning_rate import create_scheduler, NUM_EPOCHS, INITIAL_LR
 from plot_training import plot_history
 from run_files import write_json, append_csv, file_hash, copy_atomic
 from schema import model_configuration, configuration_hash, content_hash
-from training_checkpoint import save_training_checkpoint, load_training_checkpoint, reconcile_csv
+from training_checkpoint import save_training_checkpoint, load_training_checkpoint, reconcile_csv, restore_rng
 from training_config import training_configuration, SEED, ACCUMULATION, CLIP_NORM, EARLY_STOPPING
 from training_metrics import MetricMean, BASE_METRICS
 from training_step import train_group
@@ -97,6 +97,11 @@ def write_definitions(run, identity, dataset):
                   "stage使用原proxy_manifest的8个时间分层bin，不是SOC阶段，也不人为新增物理阶段。")
     final_note = ("最终best确定后才诊断及评价full，即14条完整验证轨迹；不评价测试集。" if full else
                   "最终best确定后才诊断及评价train/proxy/full。")
+    continuation = identity.get("continuation")
+    schedule_note = ("第1～141轮沿用原余弦；第142轮起固定1e-5，不延长原余弦曲线。" if continuation else
+                     "余弦T_max=141，不传验证loss。")
+    start_note = ("从第141轮last继承模型、优化器、随机状态、历史best及早停计数；原实验只读。" if continuation else
+                  "新实验重新初始化，在独立目录从第1轮开始选best。")
     text = f"""# GraphReaction 指标定义（metrics_v1）
 
 - online_train_*：随参数更新的在线窗口指标；sum(mean_loss_weight * value)/实际窗口数。
@@ -115,10 +120,10 @@ def write_definitions(run, identity, dataset):
 - count为未加权有效节点数，weighted_count为原scope权重加权的有效节点数；空集合count=0、指标null/CSV空。
 - region/interface只统计该字段有效节点；接口为原跨区物理边去重端点。无字段的phase6不填零参与物理误差。
 - {stage_note}
-- lr是该epoch训练实际值；next_lr是epoch末scheduler.step()之后的值。余弦T_max=141，不传验证loss。
-- best依据每轮online_train_CE2严格降低；连续20轮未改善停止，最多总计141轮。
+- lr是该epoch训练实际值；next_lr是epoch末scheduler.step()之后的值。{schedule_note}
+- best依据每轮online_train_CE2严格降低；连续20轮未改善停止，最多总计{identity['training']['max_epochs']}轮。
 - 在线CE2来自本轮各次参数更新时的loss平均，不是用轮末固定模型重新评价训练集。
-- 已完成实验保留原目录；新实验重新初始化，在独立目录从第1轮开始选best。
+- 已完成实验保留原目录；{start_note}
 - grad_norm_pre_clip在4窗累积完成后，直接取clip_grad_norm_返回值；阈值1；随后optimizer.step。
 - update_metrics.csv每次成功optimizer.step记录一次；异常单独保存failure.json，不把失败更新算作成功。
 - 后续训练期间不进行验证或额外机制前向；{final_note}
@@ -137,15 +142,31 @@ def write_definitions(run, identity, dataset):
 
 
 def run_training(run, dataset, epochs=NUM_EPOCHS, device="cuda", smoke_windows=None, resume=False,
-                 pause_after_epoch=None, pause_after_updates=None):
+                 pause_after_epoch=None, pause_after_updates=None, continue_from=None):
     """pause_*仅供恢复测试；正式命令行没有这些参数。"""
     configure_runtime(device)
     run = Path(run).resolve()
     settings = training_configuration(getattr(dataset, "mode", "proxy32"))
     settings.update(max_epochs=epochs, smoke_windows=smoke_windows, device=device)
+    parent = continuation = None
+    if continue_from is not None:
+        if resume:
+            raise ValueError("从旧实验延长和恢复本次续训不能同时使用。")
+        from continue_training import read_parent
+        parent = read_parent(continue_from, dataset, epochs)
+        continuation = parent["info"]
+    elif resume:
+        saved_config = json.loads((run / "config.json").read_text(encoding="utf-8"))
+        continuation = saved_config["identity"].get("continuation")
+    if continuation:
+        settings.update(schema="graphreaction_full_fixed_lr_continuation_v1", scheduler="ConstantLR",
+                        T_max=None, learning_rate=continuation["fixed_learning_rate"],
+                        fixed_learning_rate=continuation["fixed_learning_rate"])
     identity = dict(model=model_configuration(), model_configuration_hash=configuration_hash(),
         training=settings, data=dataset.identity, source=runtime_sources(), seed=SEED,
         runtime=dict(torch=str(torch.__version__), numpy=np.__version__), smoke=smoke_windows is not None)
+    if continuation:
+        identity["continuation"] = continuation
     identity["configuration_hash"] = content_hash(identity)
     if resume:
         saved_config = json.loads((run / "config.json").read_text(encoding="utf-8"))
@@ -164,11 +185,23 @@ def run_training(run, dataset, epochs=NUM_EPOCHS, device="cuda", smoke_windows=N
         write_definitions(run, identity, dataset)
     model = create_model(SEED, device)
     optimizer = new_optimizer(model)
-    scheduler = create_scheduler(optimizer)  # 先创建，再恢复optimizer/scheduler状态。
+    if parent:
+        model.load_state_dict(parent["last"]["model"], strict=True)
+        optimizer.load_state_dict(parent["last"]["optimizer"])
+        model.initialization_manifest = parent["last"]["initialization"]
+    # factor=1保持优化器当前学习率；普通新实验仍用原来的余弦调度器。
+    scheduler = (torch.optim.lr_scheduler.ConstantLR(optimizer, factor=1., total_iters=1)
+                 if continuation else create_scheduler(optimizer))
     reader = WindowReader(dataset, device)
     reader.on_graph = TopologyCoverage(run, identity).add
     state = initial_state()
     last_path, best_path = run / "checkpoints/last.pt", run / "checkpoints/best.pt"
+    if parent:
+        from continue_training import continued_state, copy_parent_records
+        state = continued_state(parent["last"])
+        copy_parent_records(run, parent, state, HISTORY_COLUMNS)
+        reconcile_csv(run / "update_metrics.csv", state["updates"], state["last_update_row"], UPDATE_COLUMNS, "update")
+        restore_rng(parent["last"]["rng"])
     if resume:
         saved = load_training_checkpoint(last_path, model, optimizer, scheduler, identity)
         state = saved["state"]
@@ -277,7 +310,11 @@ def run_training(run, dataset, epochs=NUM_EPOCHS, device="cuda", smoke_windows=N
         write_summary(run, state, identity, evaluation_status, "evaluating")
         best = torch.load(best_path, map_location="cpu", weights_only=True)
         if best["identity"] != identity:
-            raise ValueError("best checkpoint身份不一致。")
+            # 未出现新best时，仍使用原best文件，靠显式来源哈希验证，不伪装成新版断点。
+            inherited = (continuation and file_hash(best_path) == continuation["parent_best_sha256"]
+                         and content_hash(best["identity"]) == continuation["parent_identity_hash"])
+            if not inherited:
+                raise ValueError("best checkpoint身份不一致。")
         model.load_state_dict(best["model"], strict=True)
         checkpoint = dict(path=str(best_path), sha256=file_hash(best_path), epoch=state["best_epoch"], update=state["best_update"])
         run_diagnostics(model, reader, run, state["best_epoch"], state["best_update"], model_hash(model), tag="best")
@@ -315,7 +352,7 @@ def run_training(run, dataset, epochs=NUM_EPOCHS, device="cuda", smoke_windows=N
 def write_summary(run, state, identity, evaluation_status, status):
     history = state["history"]
     summary = dict(format_version="training_summary_v1", run=str(run), identity=identity, status=status,
-        seed=SEED, optimizer="AdamW", scheduler="CosineAnnealingLR", initial_lr=INITIAL_LR,
+        seed=SEED, optimizer="AdamW", scheduler=identity["training"]["scheduler"], initial_lr=INITIAL_LR,
         final_lr=history[-1]["next_lr"] if history else INITIAL_LR, epochs=state["epoch"], updates=state["updates"],
         best_epoch=state["best_epoch"], best_update=state["best_update"], best_train_CE2=state["best_train_CE2"],
         best_Q_ref_at_CE2_best=state["best_Q_ref_at_CE2_best"], best_Q_ref_scope="online_train",
@@ -326,6 +363,8 @@ def write_summary(run, state, identity, evaluation_status, status):
         evaluations=evaluation_status.copy(), diagnostics_epochs=state["diagnostics"], best_diagnostics=(run/"diagnostics/capture_best.csv").exists(),
         smoke=identity["smoke"], test_access=0)
     summary["nonfinite_grad_count"] = state["nonfinite_grad_count"]
+    if "continuation" in identity:
+        summary["continuation"] = identity["continuation"]
     write_json(run / "training_summary.json", summary)
     return summary
 

@@ -1,0 +1,12 @@
+{
+  "formal_training": false,
+  "real_data_evaluation": false,
+  "resume_parameter_optimizer_rng_max_error": 0.0,
+  "fixed_lr_and_inherited_best": "PASS: 142/143 at 1e-5, best138 retained, counter3->5",
+  "early_stop": "PASS: inherited counter=3; stops at158 after17 additional epochs",
+  "new_best": "PASS: new training CE2 best replaces inherited best and is finally evaluated",
+  "parent_files_unchanged": true,
+  "strict_resume": "PASS: incompatible old identity rejected",
+  "wrong_data_rejected": true,
+  "status": "PASS"
+}
