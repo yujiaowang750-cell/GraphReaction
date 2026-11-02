@@ -19,6 +19,10 @@ def plot_history(history, path):
         if validated:
             axis.plot([row["epoch"] for row in validated],
                       [row[f"proxy_{metric}"] for row in validated], label="Earlier proxy validation")
+        full_validated = [row for row in history if row.get(f"val_{metric}") not in (None, "")]
+        if full_validated:
+            axis.plot([row["epoch"] for row in full_validated],
+                      [row[f"val_{metric}"] for row in full_validated], label="Full validation (fixed)")
         axis.set(xlabel="Epoch", ylabel=metric, yscale="log")
         axis.legend()
         axis.grid(alpha=.25)

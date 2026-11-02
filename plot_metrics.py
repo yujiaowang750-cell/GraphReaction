@@ -25,6 +25,10 @@ def mark_best(axis, selection):
     source = "validation" if selection.get("selection_metric") == "val_CE2" else "train"
     axis.axvline(epoch, color="0.4", linestyle="--", linewidth=1,
                  label=f"Saved best by {source} CE2 (epoch {epoch})")
+    validation_epoch = selection.get("validation_selected_best_epoch")
+    if validation_epoch and source != "validation":
+        axis.axvline(validation_epoch, color="tab:orange", linestyle=":", linewidth=1.3,
+                     label=f"Saved best by validation CE2 (epoch {validation_epoch})")
 
 
 def plot_metric_curves(rows, folder, selection):
@@ -72,4 +76,24 @@ def plot_metric_curves(rows, folder, selection):
     fig.tight_layout(rect=(0, 0, 1, .97))
     for suffix in ("png", "svg"):
         fig.savefig(folder / f"field_mse_curves.{suffix}", dpi=180)
+    plt.close(fig)
+
+    fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+    for axis, key, title in zip(axes.flat,
+            ("C_MSE", "P_MSE", "V_MSE", "I_relative_MSE"),
+            ("C: (2 ce + cg + cp) / 4", "P: (phi_e + phi_p + phi_CBD) / 3",
+             "V: collector potential", "I: relative current error squared")):
+        for prefix, label, color in (("train", "Train (online)", "tab:blue"),
+                                     ("val", "Validation (fixed checkpoint)", "tab:orange")):
+            y = values(rows, f"{prefix}_{key}")
+            if np.isfinite(y).any():
+                axis.plot(epochs, y, color=color, label=label, marker="o", markersize=3)
+        mark_best(axis, selection)
+        axis.set(title=title, xlabel="Epoch", ylabel="Group loss", yscale="log")
+        axis.grid(alpha=.25)
+        axis.legend(fontsize=8)
+    fig.suptitle("C / P / V / I | CE2 = C/2 + 3P/8 + V/8 + 0.1 I")
+    fig.tight_layout()
+    for suffix in ("png", "svg"):
+        fig.savefig(folder / f"group_loss_curves.{suffix}", dpi=180)
     plt.close(fig)

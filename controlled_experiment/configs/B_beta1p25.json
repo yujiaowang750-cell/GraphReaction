@@ -1,0 +1,11 @@
+{
+  "schema": "graphreaction_fixed8_beta_branch_v1",
+  "name": "B_potential_beta1p25",
+  "beta": 1.25,
+  "denominator": 8,
+  "epochs": 10,
+  "lr": 0.00001,
+  "parent_sha256": "bddb304aaa19de2b8dc0c00acc438cc91b45741049c584b3dfa98f08d1b9d689",
+  "selection": "online_original_train_CE2",
+  "candidate_status": "unvalidated moderate perturbation; not inferred from norm ratio or proof of conflict"
+}

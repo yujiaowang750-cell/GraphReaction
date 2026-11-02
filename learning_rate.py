@@ -1,6 +1,6 @@
-"""141 个 epoch 的余弦退火：学习率从 0.001 降到 0.00001。
+"""新实验200个epoch的余弦退火：学习率从0.001降到0.00001。
 
-调用方式（完整训练入口尚未编写）：
+调用方式（train.py在每轮结束时调用）：
     optimizer = 原优化器(..., lr=INITIAL_LR)
     scheduler = create_scheduler(optimizer)
     for epoch in range(NUM_EPOCHS):
@@ -8,9 +8,9 @@
         # 本轮的实际学习率在 scheduler.step() 之前读取。
         scheduler.step()  # 一轮一次，不传入 loss，也不在每个窗口后调用。
 
-t 表示已经完成的 epoch 数：训练开始 t=0，第141轮结束 t=141。
-第141轮训练使用 eta(140)，该轮结束后才更新为 eta(141)=MIN_LR。
-严格使用给定公式的 T=141，不改成140。没有 warmup 或热重启。
+t表示已完成的epoch数：训练开始t=0，第200轮结束t=200。
+第200轮训练使用eta(199)，该轮结束后更新为eta(200)=MIN_LR。
+新实验T=200；没有warmup或热重启，提前停止时无需到达最低学习率。
 训练预算用完后停止调用 scheduler.step()，避免越过余弦最低点后回升。
 """
 
@@ -18,7 +18,7 @@ import math
 
 from torch.optim.lr_scheduler import CosineAnnealingLR
 
-NUM_EPOCHS = 141
+NUM_EPOCHS = 200
 INITIAL_LR = 1e-3
 MIN_LR = 1e-5
 

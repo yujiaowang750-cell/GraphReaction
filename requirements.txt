@@ -1,0 +1,5 @@
+# Install CUDA-enabled PyTorch separately; see README.md.
+# Direct dependencies observed in the local, checked environment.
+numpy==2.5.4
+matplotlib==3.11.2
+torch_geometric==2.8.1

@@ -7,6 +7,7 @@ import torch
 from model_config import FIELD_NAMES
 from training_metrics import SHORT_FIELDS, MetricMean
 from run_files import write_csv, write_json
+from group_metrics import group_metrics
 
 
 class EpochMetrics:
@@ -96,6 +97,7 @@ def save_nrmse(folder, fields, *, scope, checkpoint=None, windows=None):
 def epoch_columns(prefix, metrics):
     """把一个 epoch 的窗口平均和节点合并指标放入新增列。"""
     values = metrics.mean.result()
+    values.update(group_metrics(values))
     columns = {f"{prefix}_{name}": value for name, value in values.items()}
     for field, values in metrics.fields().items():
         columns[f"{prefix}_{field}_NRMSE_delta"] = values["NRMSE_delta"]

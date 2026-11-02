@@ -2,6 +2,7 @@
 
 import json
 import math
+import argparse
 from pathlib import Path
 import sys
 
@@ -13,8 +14,13 @@ from learning_rate import NUM_EPOCHS, INITIAL_LR, MIN_LR, create_scheduler
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--output", type=Path, required=True, help="新检查报告路径，不覆盖历史验收结果")
+    args = parser.parse_args()
+    if args.output.exists():
+        raise FileExistsError(args.output)
     config = json.loads((HERE / "configs/learning_rate.json").read_text(encoding="utf-8"))
-    assert config["max_epochs"] == config["T_max"] == NUM_EPOCHS == 141
+    assert config["max_epochs"] == config["T_max"] == NUM_EPOCHS
     assert config["initial_lr"] == INITIAL_LR == 1e-3
     assert config["eta_min"] == MIN_LR == 1e-5
     # 不涉及模型训练，只模拟每轮先 optimizer.step、再 scheduler.step 的先后顺序。
@@ -48,9 +54,10 @@ def main():
         status="PASS", scheduler="CosineAnnealingLR", checked_times=len(rates),
         maximum_formula_error=max(abs(a - b) for a, b in zip(rates, expected)),
         first_epoch_lr=used_rates[0], last_epoch_lr=used_rates[-1],
-        after_epoch_141_lr=rates[-1], model_training_started=False,
+        after_final_epoch_lr=rates[-1], max_epochs=NUM_EPOCHS, model_training_started=False,
     )
-    path = HERE / "checks/learning_rate_result.json"
+    path = args.output
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(report, indent=2), encoding="utf-8")
     print(json.dumps(report, indent=2))
 

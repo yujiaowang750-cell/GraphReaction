@@ -2,7 +2,7 @@
 
 from learning_rate import NUM_EPOCHS, INITIAL_LR, MIN_LR
 
-SEED = 2026
+SEED = 2027
 ACCUMULATION = 4
 CLIP_NORM = 1.0
 EARLY_STOPPING = 20
@@ -25,12 +25,17 @@ def training_configuration(dataset_mode="proxy32"):
         deterministic_algorithms=False, cudnn_deterministic=True,
         train_weight="mean_loss_weight", proxy_weight="population_weight", full_weight=1,
         reported_window_weight=1, reported_nrmse="unweighted_node_pooled_delta",
+        save_every_epoch=True, epoch_checkpoint_pattern="checkpoints/epoch_{epoch:04d}.pt",
+        group_metrics="C=(2ce+cg+cp)/4; P=(phi_e+phi_p+phi_CBD)/3; V; I_relative_MSE",
     )
     settings.update(dataset_mode=dataset_mode, evaluation_scopes=["train", "proxy", "full"])
     if dataset_mode == "full":
         settings.update(
-            schema="graphreaction_full_train_ce2_metrics_v2",
+            schema="graphreaction_full_dual_best_val_stop_v2",
             train_weight=1, proxy_weight=None, evaluation_scopes=["full"],
             diagnostic_panel="final_best_only_first_train_and_full_validation_window",
+            validate_each_epoch=True, validation_scope="full", validation_weight=1,
+            train_best_monitor="online_train_CE2", validation_best_monitor="val_CE2",
+            monitor="val_CE2", early_stopping_monitor="val_CE2", min_delta=0., final_checkpoint="best_val",
         )
     return settings

@@ -6,3 +6,6 @@ __pycache__/
 .env
 .env.*
 /.cache/
+*.pt
+*.pth
+/controlled_experiment/cloud_paths.local.sh

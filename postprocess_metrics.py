@@ -8,6 +8,7 @@ from metric_reporting import fields_from_saved, save_nrmse
 from plot_metrics import plot_metric_curves
 from run_files import read_csv, write_csv, write_json, file_hash
 from training_metrics import BASE_METRICS, SHORT_FIELDS
+from group_metrics import group_metrics
 import json
 
 
@@ -60,6 +61,12 @@ def build_epoch_rows(history, training, evaluations):
         row = next((r for r in rows if r["epoch"] == epoch), None)
         if row is None:
             raise ValueError(f"评价checkpoint第{epoch}轮不在history中。")
+        if training.get("validate_each_epoch") and row["val_CE2"] is not None:
+            # CUDA重复评价可能有细小差异。保留实际参与best/早停决策的当轮指标，
+            # 最终详细复评留在evaluation文件中，不覆盖history的选择依据。
+            if not math.isclose(row["val_CE2"], arithmetic["CE2"], rel_tol=2e-4, abs_tol=1e-9):
+                raise ValueError(f"第{epoch}轮验证CE2与最终复评超出原loss容差。")
+            continue
         # 固定checkpoint评价只能放在真实的那个epoch，不能铺满历史。
         for metric in BASE_METRICS:
             value = arithmetic[metric]
@@ -69,6 +76,10 @@ def build_epoch_rows(history, training, evaluations):
             row[f"val_{metric}"] = value
         row["validation_status"] = "fixed_checkpoint_evaluation"
         row["validation_scope"] = validation_scope
+    for row in rows:
+        for prefix in ("train", "val"):
+            metrics = {name: row.get(f"{prefix}_{name}") for name in BASE_METRICS}
+            row.update({f"{prefix}_{name}": value for name, value in group_metrics(metrics).items()})
     return rows
 
 
@@ -90,7 +101,10 @@ def summarize_selection(history, rows, summary):
                 best_Q_ref_at_CE2_best=selected_q, best_Q_ref_scope=source,
                 Q_ref_min_diagnostic=minimum[0], Q_ref_min_epoch_diagnostic=minimum[1],
                 val_CE2_at_saved_best=row["val_CE2"], val_Q_ref_at_saved_best=row["val_Q_ref"],
-                validation_selected_best_epoch=epoch if source == "val" else None)
+                validation_selected_best_epoch=(summary.get("best_val_epoch") if summary.get("validation_during_training")
+                                                else epoch if source == "val" else None),
+                best_val_CE2=summary.get("best_val_CE2"), best_val_Q_ref=summary.get("best_val_Q_ref"),
+                early_stopping_monitor=summary.get("early_stopping_monitor", metric))
 
 
 def process_run(run, output=None):
@@ -146,8 +160,10 @@ def process_run(run, output=None):
         if overall["scope"] == validation_scope and validation_scope in available_nrmse:
             row = next(r for r in rows if r["epoch"] == overall["checkpoint"]["epoch"])
             for field, metrics in available_nrmse[validation_scope].items():
-                row[f"val_{field}_NRMSE_delta"] = metrics["NRMSE_delta"]
-                row[f"val_{field}_node_pooled_MSE"] = metrics["standardized_node_pooled_MSE"]
+                if row.get(f"val_{field}_NRMSE_delta") is None:
+                    row[f"val_{field}_NRMSE_delta"] = metrics["NRMSE_delta"]
+                if row.get(f"val_{field}_node_pooled_MSE") is None:
+                    row[f"val_{field}_node_pooled_MSE"] = metrics["standardized_node_pooled_MSE"]
     selection = summarize_selection(history, rows, summary)
     write_csv(output / "epoch_metrics.csv", rows, list(rows[0]))
     write_json(output / "selection.json", selection)
@@ -176,9 +192,14 @@ def process_run(run, output=None):
              "旧子集评价若包含population_weight，不能将加权节点MSE直接冒充不加权公式；availability.json会指出不可恢复项。", "",
              "## 文件", "", "- [每轮指标](epoch_metrics.csv)", "- [选择记录](selection.json)",
              "- [CE2/Q_ref曲线](ce2_q_ref_curves.png)", "- [七字段MSE曲线](field_mse_curves.png)",
+             "- [C/P/V/I分组曲线](group_loss_curves.png)",
              "- [可恢复性与原文件哈希](availability.json)", ""]
     for scope in available_nrmse:
         lines.append(f"- [{scope}的七字段NRMSE_delta]({scope}/nrmse_delta.csv)")
+    if summary.get("validation_during_training"):
+        lines.extend(["", f"本实验另存验证best：epoch {summary['best_val_epoch']}，"
+                      f"当轮val_CE2={summary['best_val_CE2']}。验证CE2控制早停。",
+                      "每轮验证记录是选择依据；最终详细复评独立保留，不回写参与选择的历史值。"])
     (output / "README.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     after = {name: file_hash(run / name) for name in before}
     if before != after:

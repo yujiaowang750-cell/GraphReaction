@@ -1,0 +1,8 @@
+# 本机实际运行版本，仅作为云端环境准备依据，不表示已验证服务器驱动或软件源。
+Python 3.13.9
+torch 2.14.1+cu126
+torch-geometric 2.8.1
+numpy 2.5.4
+matplotlib 3.11.2
+# 无AMP、无TF32；CPU线程4；默认CUDA非强制确定性，与原协议一致。
+# 云端先配置可用的PyTorch/CUDA环境，再运行check和smoke。不要复制Windows虚拟环境。

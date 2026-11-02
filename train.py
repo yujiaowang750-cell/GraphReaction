@@ -1,4 +1,4 @@
-"""GraphReaction：只训练，按训练CE2选best，停止后固定best评价。
+"""GraphReaction：全量训练每轮验证，保存训练best与验证best，按验证CE2早停。
 
 从项目根目录启动：.venv/Scripts/python.exe GraphReaction/train.py
 全量训练：... GraphReaction/train.py --dataset full --full-root Datasets
@@ -20,12 +20,14 @@ import torch
 
 from diagnostics import TopologyCoverage, run_diagnostics, DIAGNOSTIC_COLUMNS, RATIO_EPS
 from evaluation import evaluate_scope
+from epoch_validation import validate_full, update_validation_best
 from initialization import create_model
 from learning_rate import create_scheduler, NUM_EPOCHS, INITIAL_LR
 from plot_training import plot_history
 from run_files import write_json, append_csv, file_hash, copy_atomic
 from schema import model_configuration, configuration_hash, content_hash
 from training_checkpoint import save_training_checkpoint, load_training_checkpoint, reconcile_csv, restore_rng
+from training_checkpoint import archive_epoch_checkpoint
 from training_config import training_configuration, SEED, ACCUMULATION, CLIP_NORM, EARLY_STOPPING
 from training_metrics import MetricMean, BASE_METRICS
 from training_step import train_group
@@ -45,6 +47,8 @@ HISTORY_COLUMNS = ["epoch", "updates", "lr", "next_lr", "order_sha256", "schedul
 # 只为新实验扩列；旧history和旧MSE列不改写。
 REPORT_COLUMNS = list(epoch_columns("train", EpochMetrics())) + list(epoch_columns("val", EpochMetrics()))
 HISTORY_COLUMNS += ["best_Q_ref_at_CE2_best", "best_Q_ref_scope"] + REPORT_COLUMNS
+HISTORY_COLUMNS += ["best_val_CE2", "best_val_epoch", "best_val_Q_ref", "is_val_best",
+                    "epoch_validation_seconds", "early_stopping_monitor", "validation_windows"]
 
 
 def configure_runtime(device):
@@ -82,34 +86,41 @@ def runtime_sources():
 def initial_state():
     return dict(epoch=0, cursor=0, updates=0, best_proxy_Q_ref=None, best_train_CE2=None,
         best_Q_ref_at_CE2_best=None, reported=EpochMetrics().state(),
+        best_val_CE2=None, best_val_epoch=0, best_val_update=0, best_val_Q_ref=None,
         best_epoch=0, best_update=0, selection_start_epoch=1,
         early_stop_counter=0, history=[], online=MetricMean().state(), grad_sum=0., grad_max=0., grad_clipped=0,
-        epoch_steps=0, epoch_train_seconds=0., training_seconds=0., complete=False, stop_reason=None,
+        epoch_steps=0, epoch_train_seconds=0., training_seconds=0., validation_seconds=0., complete=False, stop_reason=None,
         pending_diagnostic=False, diagnostics=[], last_update_row=None, nonfinite_grad_count=0)
 
 
 def write_definitions(run, identity, dataset):
     # 此文件定义日志口径；不是另一个训练算法配置。
     full = identity["training"]["dataset_mode"] == "full"
+    dual_best = identity["training"]["validate_each_epoch"]
     weight_note = ("全量训练和完整验证的窗口权重均为1；online_train按窗口数平均。" if full else
                    "固定best评价 train/proxy/full 的窗口权重依次为 mean_loss_weight/population_weight/1。")
     stage_note = ("保留每条轨迹按时间等数量划分8段的报告口径，不读取子集索引，不是SOC或推断物理阶段。" if full else
                   "stage使用原proxy_manifest的8个时间分层bin，不是SOC阶段，也不人为新增物理阶段。")
-    final_note = ("最终best确定后才诊断及评价full，即14条完整验证轨迹；不评价测试集。" if full else
+    final_note = ("每轮固定权重评价full；最终加载best_val输出详细验证结果；不评价测试集。" if dual_best else
                   "最终best确定后才诊断及评价train/proxy/full。")
     continuation = identity.get("continuation")
     schedule_note = ("第1～141轮沿用原余弦；第142轮起固定1e-5，不延长原余弦曲线。" if continuation else
-                     "余弦T_max=141，不传验证loss。")
+                     f"余弦T_max={NUM_EPOCHS}，不传验证loss。")
     start_note = ("从第141轮last继承模型、优化器、随机状态、历史best及早停计数；原实验只读。" if continuation else
                   "新实验重新初始化，在独立目录从第1轮开始选best。")
+    validation_note = ("每轮固定当轮模型评价完整验证集；这些值不用于反向传播。" if dual_best else
+                       "本实验不进行逐轮验证，缺失轮次留空。")
+    best_note = ("best_train按在线训练CE2严格降低保存，best_val按完整验证CE2严格降低保存；"
+                 "只有验证CE2更新最低值才清零早停计数。" if dual_best else
+                 "best按在线训练CE2严格降低保存，训练CE2控制早停。")
     text = f"""# GraphReaction 指标定义（metrics_v1）
 
 - online_train_*：随参数更新的在线窗口指标；sum(mean_loss_weight * value)/实际窗口数。
 - train_*：新增的窗口算术平均；每个窗口只统计一次，不再除梯度累积步数。全量训练中与online_train_*相同。
-- val_*：保持不进行逐轮验证，因此本轮留空。最终固定best的真实验证点可由postprocess_metrics.py整理到独立表格。
+- val_*：{validation_note}
 - train/val_*_NRMSE_delta：所有有效节点的标准化增量SSE/count后开方，不用字段或电解液区域权重。
 - best_Q_ref_at_CE2_best：刷新训练CE2最佳轮时，一并保存该轮online_train_Q_ref；不是Q_ref历史最小值。
-- proxy_*：本轮训练不进行验证，始终留空，validation_status=not_run。
+- proxy_*：旧子集兼容列；完整验证使用val_*，不冒充proxy结果。
 - {weight_note}
 - CE2=(2*ce_MSE+其余六字段MSE)/8+0.1*current_relative_MSE；Q_ref=七字段MSE均值+0.1*current_relative_MSE。
 - ce/phi_e 的MSE先对phase2/5分别节点平均，再以0.5:0.5合并。分相列单独列出。
@@ -121,17 +132,20 @@ def write_definitions(run, identity, dataset):
 - region/interface只统计该字段有效节点；接口为原跨区物理边去重端点。无字段的phase6不填零参与物理误差。
 - {stage_note}
 - lr是该epoch训练实际值；next_lr是epoch末scheduler.step()之后的值。{schedule_note}
-- best依据每轮online_train_CE2严格降低；连续20轮未改善停止，最多总计{identity['training']['max_epochs']}轮。
+- {best_note} 连续{EARLY_STOPPING}轮未改善停止，最多总计{identity['training']['max_epochs']}轮。
 - 在线CE2来自本轮各次参数更新时的loss平均，不是用轮末固定模型重新评价训练集。
 - 已完成实验保留原目录；{start_note}
 - grad_norm_pre_clip在4窗累积完成后，直接取clip_grad_norm_返回值；阈值1；随后optimizer.step。
 - update_metrics.csv每次成功optimizer.step记录一次；异常单独保存failure.json，不把失败更新算作成功。
-- 后续训练期间不进行验证或额外机制前向；{final_note}
+- {final_note}
 - RMS=sqrt(mean(x**2))，count为张量元素数；属于隐藏表示量，无物理单位。a.std使用总体标准差。
 - R/Dgraph比值的eps=1e-12，仅表示隐藏幅值；q/a不是物理电流。
 - 默认H0..H4、Z0..Z3；DR3/UR3为not_computed和null，Z4不伪造。
 - 原始化物理电流按AM/CBD-正集流体接触重建，与LI使用同一结果。
 - checkpoint先原子提交，再落对应CSV；恢复只补最后一个未落日志行，检测到超前/重复记录即拒绝。
+- 每轮完整状态独立保存在checkpoints/epoch_XXXX.pt；last.pt另外在每次完整优化器更新后提交，用于中途中断恢复。
+- C=(2*ce+cg+cp)/4；P=(phi_e+phi_p+phi_CBD)/3；V单列；I为未乘0.1的电流相对MSE。
+- 分组对CE2的贡献依次为4*C/8、3*P/8、V/8、0.1*I；main_loss是前三项之和，total_loss就是CE2。
 """
     path = Path(run) / "metrics/metric_definitions.md"
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -148,6 +162,7 @@ def run_training(run, dataset, epochs=NUM_EPOCHS, device="cuda", smoke_windows=N
     run = Path(run).resolve()
     settings = training_configuration(getattr(dataset, "mode", "proxy32"))
     settings.update(max_epochs=epochs, smoke_windows=smoke_windows, device=device)
+    dual_best = settings["validate_each_epoch"]
     parent = continuation = None
     if continue_from is not None:
         if resume:
@@ -177,7 +192,8 @@ def run_training(run, dataset, epochs=NUM_EPOCHS, device="cuda", smoke_windows=N
         write_json(run / "config.json", dict(identity=identity, created_utc=datetime.now(timezone.utc).isoformat(),
             proxy_root=str(dataset.proxy_root) if dataset.proxy_root is not None else None,
             dataset_root=str(dataset.root), full_root=str(dataset.full_root),
-            selection="online_train_CE2 strict decrease; no epoch validation", diagnostic_panel=dataset.panel))
+            selection=("two bests: online_train_CE2 and val_CE2; early stopping uses val_CE2" if dual_best else
+                       "online_train_CE2 strict decrease; no epoch validation"), diagnostic_panel=dataset.panel))
         source_folder = run / "source"
         source_folder.mkdir()
         for name in identity["source"]:
@@ -195,7 +211,9 @@ def run_training(run, dataset, epochs=NUM_EPOCHS, device="cuda", smoke_windows=N
     reader = WindowReader(dataset, device)
     reader.on_graph = TopologyCoverage(run, identity).add
     state = initial_state()
-    last_path, best_path = run / "checkpoints/last.pt", run / "checkpoints/best.pt"
+    last_path = run / "checkpoints/last.pt"
+    best_path = run / "checkpoints" / ("best_train.pt" if dual_best else "best.pt")
+    val_best_path = run / "checkpoints/best_val.pt"
     if parent:
         from continue_training import continued_state, copy_parent_records
         state = continued_state(parent["last"])
@@ -207,12 +225,20 @@ def run_training(run, dataset, epochs=NUM_EPOCHS, device="cuda", smoke_windows=N
         state = saved["state"]
         reconcile_csv(run / "update_metrics.csv", state["updates"], state["last_update_row"], UPDATE_COLUMNS, "update")
         reconcile_csv(run / "history.csv", state["epoch"], state["history"][-1] if state["history"] else None, HISTORY_COLUMNS, "epoch")
+        write_json(run / "history.json", state["history"])
     def persist():
         save_training_checkpoint(last_path, model, optimizer, scheduler, state, identity, state["last_update_row"])
     def ensure_best():
-        if state["best_epoch"] == state["epoch"] and state["epoch"] > 0 and state["cursor"] == 0:
-            if not best_path.exists() or torch.load(best_path,map_location="cpu",weights_only=True)["state"]["epoch"] != state["best_epoch"]:
-                copy_atomic(last_path, best_path)
+        # 在已提交的轮末边界保存完整独立归档，也能补齐中断时未完成的复制。
+        if state["epoch"] > 0 and state["cursor"] == 0:
+            archive_epoch_checkpoint(last_path, state["epoch"])
+        candidates = [(best_path, state["best_epoch"])]
+        if dual_best:
+            candidates.append((val_best_path, state["best_val_epoch"]))
+        for path, best_epoch in candidates:
+            if best_epoch == state["epoch"] and state["epoch"] > 0 and state["cursor"] == 0:
+                if not path.exists() or torch.load(path,map_location="cpu",weights_only=True)["state"]["epoch"] != best_epoch:
+                    copy_atomic(last_path, path)
     if not resume:
         persist()
     ensure_best()
@@ -265,18 +291,38 @@ def run_training(run, dataset, epochs=NUM_EPOCHS, device="cuda", smoke_windows=N
                 if pause_after_updates is not None and state["updates"] == pause_after_updates:
                     return dict(status="test_pause", state=state, run=str(run))
             train_metrics = online.result()
+            val_reported = EpochMetrics()
+            validation_seconds = 0.
+            if dual_best:
+                validation_started = time.perf_counter()
+                # 当轮optimizer更新已全部结束，验证期间模型权重固定。
+                val_reported = validate_full(model, reader, smoke_windows)
+                validation_seconds = time.perf_counter() - validation_started
+                state["validation_seconds"] += validation_seconds
             is_best = state["best_train_CE2"] is None or train_metrics["CE2"] < state["best_train_CE2"]
             if is_best:
-                state.update(best_train_CE2=train_metrics["CE2"], best_epoch=epoch, best_update=state["updates"], early_stop_counter=0)
+                state.update(best_train_CE2=train_metrics["CE2"], best_epoch=epoch, best_update=state["updates"])
                 state["best_Q_ref_at_CE2_best"] = train_metrics["Q_ref"]
+            is_val_best = False
+            if dual_best:
+                is_val_best = update_validation_best(state, val_reported.mean.result(), epoch, state["updates"])
+            elif is_best:
+                state["early_stop_counter"] = 0
             else:
                 state["early_stop_counter"] += 1
             scheduler.step()
-            reason = "early_stopping_20_epochs_without_strict_improvement" if state["early_stop_counter"] >= EARLY_STOPPING else "epoch_budget" if epoch == epochs else None
+            monitor = "val_CE2" if dual_best else "online_train_CE2"
+            reason = (f"early_stopping_{EARLY_STOPPING}_epochs_without_{monitor}_improvement"
+                      if state["early_stop_counter"] >= EARLY_STOPPING else "epoch_budget" if epoch == epochs else None)
             history = dict(epoch=epoch, updates=state["updates"], lr=lr, next_lr=optimizer.param_groups[0]["lr"],
                 order_sha256=oh, scheduler_name=type(scheduler).__name__, scheduler_config_hash=content_hash(settings),
                 best_proxy_Q_ref=None, best_train_CE2=state["best_train_CE2"],
-                selection_metric="online_train_CE2", best_value=state["best_train_CE2"], validation_status="not_run",
+                selection_metric="online_train_CE2", best_value=state["best_train_CE2"],
+                validation_status="completed" if dual_best else "not_run",
+                best_val_CE2=state["best_val_CE2"], best_val_epoch=state["best_val_epoch"],
+                best_val_Q_ref=state["best_val_Q_ref"], is_val_best=is_val_best,
+                epoch_validation_seconds=validation_seconds, early_stopping_monitor=monitor,
+                validation_windows=val_reported.mean.windows,
                 best_epoch=state["best_epoch"], epochs_since_best=epoch-state["best_epoch"],
                 early_stop_counter=state["early_stop_counter"], is_best=is_best, stop_reason=reason,
                 grad_norm_pre_clip_mean=state["grad_sum"]/state["epoch_steps"], grad_norm_pre_clip_max=state["grad_max"],
@@ -285,7 +331,7 @@ def run_training(run, dataset, epochs=NUM_EPOCHS, device="cuda", smoke_windows=N
                 cuda_max_memory_bytes=torch.cuda.max_memory_allocated() if device == "cuda" else None)
             history.update({"online_train_"+name: value for name,value in train_metrics.items()})
             history.update(epoch_columns("train", reported))
-            history.update({key: None for key in epoch_columns("val", EpochMetrics())})
+            history.update(epoch_columns("val", val_reported))
             history.update(best_Q_ref_at_CE2_best=state["best_Q_ref_at_CE2_best"], best_Q_ref_scope="online_train")
             state["history"].append(history)
             state.update(epoch=epoch, cursor=0, online=MetricMean().state(), grad_sum=0., grad_max=0., grad_clipped=0,
@@ -299,16 +345,22 @@ def run_training(run, dataset, epochs=NUM_EPOCHS, device="cuda", smoke_windows=N
             print(f"epoch={epoch}/{epochs} updates={state['updates']} lr={lr:.4g} next_lr={history['next_lr']:.4g} "
                   f"online_train_CE2={history['online_train_CE2']:.7g} best_train_CE2={state['best_train_CE2']:.7g} "
                   f"best_epoch={state['best_epoch']} grad_norm={history['grad_norm_pre_clip_mean']:.5g} "
-                  f"elapsed={history['epoch_train_seconds']:.1f}s best={is_best}; validation=not_run", flush=True)
+                  f"elapsed={history['epoch_train_seconds']:.1f}s best_train={is_best}; "
+                  f"val_CE2={history['val_CE2']} best_val_epoch={state['best_val_epoch']} "
+                  f"no_improvement={state['early_stop_counter']}/{EARLY_STOPPING}", flush=True)
             write_summary(run, state, identity, evaluation_status, "training" if not state["complete"] else "evaluating")
-            if epoch == 1 or epoch % 10 == 0 or state["complete"]:
-                plot_history(state["history"], run / "loss_curve.png")
-                plot_metric_curves(state["history"], run / "metrics_v2", dict(
-                    best_epoch=state["best_epoch"], selection_metric="online_train_CE2"))
+            # 每轮刷新曲线；只使用已记录指标，不再额外运行模型。
+            plot_history(state["history"], run / "loss_curve.png")
+            plot_metric_curves(state["history"], run / "metrics_v2", dict(
+                best_epoch=state["best_epoch"], selection_metric="online_train_CE2",
+                validation_selected_best_epoch=state["best_val_epoch"] if dual_best else None))
             if pause_after_epoch == epoch:
                 return dict(status="test_pause", state=state, run=str(run))
         write_summary(run, state, identity, evaluation_status, "evaluating")
-        best = torch.load(best_path, map_location="cpu", weights_only=True)
+        selected_path = val_best_path if dual_best else best_path
+        selected_epoch = state["best_val_epoch"] if dual_best else state["best_epoch"]
+        selected_update = state["best_val_update"] if dual_best else state["best_update"]
+        best = torch.load(selected_path, map_location="cpu", weights_only=True)
         if best["identity"] != identity:
             # 未出现新best时，仍使用原best文件，靠显式来源哈希验证，不伪装成新版断点。
             inherited = (continuation and file_hash(best_path) == continuation["parent_best_sha256"]
@@ -316,8 +368,8 @@ def run_training(run, dataset, epochs=NUM_EPOCHS, device="cuda", smoke_windows=N
             if not inherited:
                 raise ValueError("best checkpoint身份不一致。")
         model.load_state_dict(best["model"], strict=True)
-        checkpoint = dict(path=str(best_path), sha256=file_hash(best_path), epoch=state["best_epoch"], update=state["best_update"])
-        run_diagnostics(model, reader, run, state["best_epoch"], state["best_update"], model_hash(model), tag="best")
+        checkpoint = dict(path=str(selected_path), sha256=file_hash(selected_path), epoch=selected_epoch, update=selected_update)
+        run_diagnostics(model, reader, run, selected_epoch, selected_update, model_hash(model), tag="best")
         for scope in settings["evaluation_scopes"]:
             folder = run / "evaluation" / scope
             result_path = folder / "overall_metrics.json"
@@ -351,18 +403,30 @@ def run_training(run, dataset, epochs=NUM_EPOCHS, device="cuda", smoke_windows=N
 
 def write_summary(run, state, identity, evaluation_status, status):
     history = state["history"]
+    dual_best = identity["training"]["validate_each_epoch"]
     summary = dict(format_version="training_summary_v1", run=str(run), identity=identity, status=status,
         seed=SEED, optimizer="AdamW", scheduler=identity["training"]["scheduler"], initial_lr=INITIAL_LR,
         final_lr=history[-1]["next_lr"] if history else INITIAL_LR, epochs=state["epoch"], updates=state["updates"],
         best_epoch=state["best_epoch"], best_update=state["best_update"], best_train_CE2=state["best_train_CE2"],
         best_Q_ref_at_CE2_best=state["best_Q_ref_at_CE2_best"], best_Q_ref_scope="online_train",
         selection_metric="online_train_CE2", selection_start_epoch=state["selection_start_epoch"],
-        validation_during_training=False,
+        validation_during_training=dual_best,
         stop_reason=state["stop_reason"] if status not in ("failed","interrupted") else status,
-        training_seconds=state["training_seconds"], checkpoints=dict(best=str(run/"checkpoints/best.pt"),last=str(run/"checkpoints/last.pt")),
+        training_seconds=state["training_seconds"], checkpoints=dict(
+            best_train=str(run/"checkpoints"/("best_train.pt" if dual_best else "best.pt")),
+            best_val=str(run/"checkpoints/best_val.pt") if dual_best else None,
+            last=str(run/"checkpoints/last.pt")),
         evaluations=evaluation_status.copy(), diagnostics_epochs=state["diagnostics"], best_diagnostics=(run/"diagnostics/capture_best.csv").exists(),
         smoke=identity["smoke"], test_access=0)
     summary["nonfinite_grad_count"] = state["nonfinite_grad_count"]
+    summary["epoch_checkpoints"] = [str(path) for path in sorted((run/"checkpoints").glob("epoch_*.pt"))]
+    if not dual_best:
+        summary["checkpoints"]["best"] = str(run/"checkpoints/best.pt")
+    summary.update(best_train_epoch=state["best_epoch"], best_val_CE2=state["best_val_CE2"],
+                   best_val_epoch=state["best_val_epoch"], best_val_Q_ref=state["best_val_Q_ref"],
+                   early_stopping_monitor="val_CE2" if dual_best else "online_train_CE2",
+                   early_stop_counter=state["early_stop_counter"], validation_seconds=state["validation_seconds"],
+                   final_evaluation_checkpoint="best_val" if dual_best else "best_train")
     if "continuation" in identity:
         summary["continuation"] = identity["continuation"]
     write_json(run / "training_summary.json", summary)
@@ -381,7 +445,7 @@ def main():
     parser.add_argument("--device", choices=("cpu","cuda"), default="cuda")
     args = parser.parse_args()
     if not 1 <= args.epochs <= NUM_EPOCHS or args.smoke_windows is not None and args.smoke_windows < 1:
-        parser.error("epochs应在1～141内，smoke-windows必须为正数。")
+        parser.error(f"epochs应在1～{NUM_EPOCHS}内，smoke-windows必须为正数。")
     if args.resume:
         saved = json.loads((args.resume / "config.json").read_text(encoding="utf-8"))
         config = saved["identity"]["training"]
