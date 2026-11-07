@@ -1,0 +1,59 @@
+{
+  "format_version": "unweighted_node_pooled_nrmse_delta_v1",
+  "scope": "full",
+  "checkpoint": {
+    "path": "D:\\Github Project\\NewProgramByMe\\GraphReaction\\training_runs\\full_seed2027_e200_dualbest_r001\\checkpoints\\best_val.pt",
+    "sha256": "e68a35990888a419e37fc7f29819303c069785b4f7601bf830cf7ac92e3c56a3",
+    "epoch": 195,
+    "update": 1117740
+  },
+  "windows": 4917,
+  "fields": {
+    "ce": {
+      "standardized_node_pooled_MSE": 0.00035191647972852375,
+      "NRMSE_delta": 0.018759437084532246,
+      "count": 10474122,
+      "standardized_SSE": 3686.016142487085
+    },
+    "phi_e": {
+      "standardized_node_pooled_MSE": 6.238702125296004e-05,
+      "NRMSE_delta": 0.007898545515027437,
+      "count": 10474122,
+      "standardized_SSE": 653.4492718200963
+    },
+    "cg": {
+      "standardized_node_pooled_MSE": 0.0018875403442117891,
+      "NRMSE_delta": 0.043445832299678515,
+      "count": 4445864,
+      "standardized_SSE": 8391.747664878802
+    },
+    "cp": {
+      "standardized_node_pooled_MSE": 0.0021449720105864217,
+      "NRMSE_delta": 0.04631384253747924,
+      "count": 3647051,
+      "standardized_SSE": 7822.822316181219
+    },
+    "phi_p": {
+      "standardized_node_pooled_MSE": 6.981830305853726e-05,
+      "NRMSE_delta": 0.008355734740795526,
+      "count": 3647051,
+      "standardized_SSE": 254.6309119879414
+    },
+    "phi_CBD": {
+      "standardized_node_pooled_MSE": 6.430227386199547e-05,
+      "NRMSE_delta": 0.008018869861894222,
+      "count": 30156307,
+      "standardized_SSE": 1939.1191113804111
+    },
+    "V": {
+      "standardized_node_pooled_MSE": 6.223410305501705e-05,
+      "NRMSE_delta": 0.007888859426749665,
+      "count": 4917,
+      "standardized_SSE": 0.3060050847215188
+    }
+  },
+  "definition": "sqrt(sum of standardized increment squared errors / all valid node occurrences)",
+  "window_weight": 1,
+  "field_weight": 1,
+  "electrolyte_region_weight": "none; include all phase2/5 nodes"
+}

@@ -1,0 +1,15 @@
+{
+  "selection_metric": "online_train_CE2",
+  "best_epoch": 189,
+  "best_CE2": 0.0004328377915113856,
+  "best_Q_ref_at_CE2_best": 0.00043460130604066146,
+  "best_Q_ref_scope": "online_train",
+  "Q_ref_min_diagnostic": 0.00043460130604066146,
+  "Q_ref_min_epoch_diagnostic": 189,
+  "val_CE2_at_saved_best": 0.0006542429452617174,
+  "val_Q_ref_at_saved_best": 0.0007008428282418003,
+  "validation_selected_best_epoch": 195,
+  "best_val_CE2": 0.0006170460928160809,
+  "best_val_Q_ref": 0.0006593199885656279,
+  "early_stopping_monitor": "val_CE2"
+}

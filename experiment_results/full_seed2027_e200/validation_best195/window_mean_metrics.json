@@ -1,0 +1,29 @@
+{
+  "format_version": "window_arithmetic_metrics_v1",
+  "scope": "full",
+  "checkpoint": {
+    "path": "D:\\Github Project\\NewProgramByMe\\GraphReaction\\training_runs\\full_seed2027_e200_dualbest_r001\\checkpoints\\best_val.pt",
+    "sha256": "e68a35990888a419e37fc7f29819303c069785b4f7601bf830cf7ac92e3c56a3",
+    "epoch": 195,
+    "update": 1117740
+  },
+  "windows": 4917,
+  "window_weight": 1,
+  "metrics": {
+    "CE2": 0.0006170461633385933,
+    "Q_ref": 0.0006593200692276412,
+    "ce_MSE": 0.00032056499275276765,
+    "phi_e_MSE": 6.0894328247949916e-05,
+    "cg_MSE": 0.0018883779196041766,
+    "cp_MSE": 0.002144833903460582,
+    "phi_p_MSE": 6.976698756322057e-05,
+    "phi_CBD_MSE": 6.462144437233276e-05,
+    "V_MSE": 6.223410305501705e-05,
+    "ce_phase2_MSE": 0.00038834266922616376,
+    "ce_phase5_MSE": 0.00025278731627937143,
+    "phi_e_phase2_MSE": 6.386153128075044e-05,
+    "phi_e_phase5_MSE": 5.792712521514949e-05,
+    "current_relative_MSE": 5.638293624898441e-06,
+    "current_relative_RMSE_pct": 0.23745091334628388
+  }
+}

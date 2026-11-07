@@ -29,10 +29,15 @@ def main():
     parser.add_argument("--expected-epoch", type=int, default=138)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--device", choices=("cpu", "cuda"), default="cuda")
+    parser.add_argument(
+    "--checkpoint-name",
+    choices=["best.pt", "best_train.pt", "best_val.pt"],
+    default="best.pt",
+    )
     args = parser.parse_args()
     model_run = args.model_run.resolve()
     config = json.loads((model_run / "config.json").read_text(encoding="utf-8"))
-    checkpoint_path = model_run / "checkpoints/best.pt"
+    checkpoint_path = model_run / "checkpoints" / args.checkpoint_name
     digest = file_hash(checkpoint_path)
     payload = torch.load(checkpoint_path, map_location="cpu", weights_only=True)
     if payload["schema"] != TRAINING_CHECKPOINT_SCHEMA or payload["identity"] != config["identity"]:

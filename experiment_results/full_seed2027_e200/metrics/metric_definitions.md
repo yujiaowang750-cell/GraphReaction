@@ -1,0 +1,33 @@
+# GraphReaction 指标定义（metrics_v1）
+
+- online_train_*：随参数更新的在线窗口指标；sum(mean_loss_weight * value)/实际窗口数。
+- train_*：新增的窗口算术平均；每个窗口只统计一次，不再除梯度累积步数。全量训练中与online_train_*相同。
+- val_*：每轮固定当轮模型评价完整验证集；这些值不用于反向传播。
+- train/val_*_NRMSE_delta：所有有效节点的标准化增量SSE/count后开方，不用字段或电解液区域权重。
+- best_Q_ref_at_CE2_best：刷新训练CE2最佳轮时，一并保存该轮online_train_Q_ref；不是Q_ref历史最小值。
+- proxy_*：旧子集兼容列；完整验证使用val_*，不冒充proxy结果。
+- 全量训练和完整验证的窗口权重均为1；online_train按窗口数平均。
+- CE2=(2*ce_MSE+其余六字段MSE)/8+0.1*current_relative_MSE；Q_ref=七字段MSE均值+0.1*current_relative_MSE。
+- ce/phi_e 的MSE先对phase2/5分别节点平均，再以0.5:0.5合并。分相列单独列出。
+- 所有 *_MSE 默认是标准化10秒增量误差，无量纲；cg/cp是原锂化度增量标准化空间。
+- current_relative_MSE 是未乘0.1的电流相对平方项；RMSE_pct=100*sqrt(聚合MSE)。
+- 物理浓度恢复为mol/m^3后不再乘cmax；电势误差只转换一次到mV。
+- physical_RMSE/MAE按权重*SSE、SAE、节点count累加，最后开方/相除；不等同于phase平衡的训练loss。
+- count为未加权有效节点数，weighted_count为原scope权重加权的有效节点数；空集合count=0、指标null/CSV空。
+- region/interface只统计该字段有效节点；接口为原跨区物理边去重端点。无字段的phase6不填零参与物理误差。
+- 保留每条轨迹按时间等数量划分8段的报告口径，不读取子集索引，不是SOC或推断物理阶段。
+- lr是该epoch训练实际值；next_lr是epoch末scheduler.step()之后的值。余弦T_max=200，不传验证loss。
+- best_train按在线训练CE2严格降低保存，best_val按完整验证CE2严格降低保存；只有验证CE2更新最低值才清零早停计数。 连续20轮未改善停止，最多总计200轮。
+- 在线CE2来自本轮各次参数更新时的loss平均，不是用轮末固定模型重新评价训练集。
+- 已完成实验保留原目录；新实验重新初始化，在独立目录从第1轮开始选best。
+- grad_norm_pre_clip在4窗累积完成后，直接取clip_grad_norm_返回值；阈值1；随后optimizer.step。
+- update_metrics.csv每次成功optimizer.step记录一次；异常单独保存failure.json，不把失败更新算作成功。
+- 每轮固定权重评价full；最终加载best_val输出详细验证结果；不评价测试集。
+- RMS=sqrt(mean(x**2))，count为张量元素数；属于隐藏表示量，无物理单位。a.std使用总体标准差。
+- R/Dgraph比值的eps=1e-12，仅表示隐藏幅值；q/a不是物理电流。
+- 默认H0..H4、Z0..Z3；DR3/UR3为not_computed和null，Z4不伪造。
+- 原始化物理电流按AM/CBD-正集流体接触重建，与LI使用同一结果。
+- checkpoint先原子提交，再落对应CSV；恢复只补最后一个未落日志行，检测到超前/重复记录即拒绝。
+- 每轮完整状态独立保存在checkpoints/epoch_XXXX.pt；last.pt另外在每次完整优化器更新后提交，用于中途中断恢复。
+- C=(2*ce+cg+cp)/4；P=(phi_e+phi_p+phi_CBD)/3；V单列；I为未乘0.1的电流相对MSE。
+- 分组对CE2的贡献依次为4*C/8、3*P/8、V/8、0.1*I；main_loss是前三项之和，total_loss就是CE2。
